@@ -13,6 +13,11 @@ export const useHeroAnimation = (
 ) => {
   const [responsiveValues, setResponsiveValues] = useState<ResponsiveConfig | null>(null)
 
+  // Fixed baseline constants for symmetric spacing
+  const HEADER_H = 96
+  const SAFE_BOTTOM = 80
+  const SAFE_TOP = HEADER_H + 24
+
   useEffect(() => {
     const handleResize = () => {
       setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth, window.innerHeight))
@@ -117,6 +122,10 @@ export const useHeroAnimation = (
 
       // Phase 3: Card Animation Setup
       const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
+      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1280
+      const isMobile = window.innerWidth < 768
+      const compressionFactor = isTablet || isMobile ? 0.92 : 1
+
       phase3Images.forEach((img, i) => {
         const staggerDelay = i * 0.15
         const randomX = (i % 2 === 0 ? -1 : 1) * (Math.random() * 30 + 10)
@@ -134,18 +143,26 @@ export const useHeroAnimation = (
         ".phase-3-img",
         {
           top: (i) => {
-            if (i < 7) return responsiveValues.vShapePositions[i]?.top || "50%"
+            if (i < responsiveValues.vShapePositions.length) {
+              const topVal = responsiveValues.vShapePositions[i]?.top || "50%"
+              if (typeof topVal === "string" && topVal.endsWith("px")) {
+                const pxValue = parseInt(topVal, 10)
+                const compressed = SAFE_TOP + (pxValue - SAFE_TOP) * compressionFactor
+                return `${Math.round(compressed)}px`
+              }
+              return topVal
+            }
             return "100vh"
           },
           left: (i) => {
-            if (i < 7) return responsiveValues.vShapePositions[i]?.left || "50%"
+            if (i < responsiveValues.vShapePositions.length) return responsiveValues.vShapePositions[i]?.left || "50%"
             return "50%"
           },
           xPercent: -50,
           yPercent: -50,
-          rotation: (i) => (i < 7 ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
-          scale: 0.78,
-          opacity: (i) => (i < 7 ? 1 : 0),
+          rotation: (i) => (i < responsiveValues.vShapePositions.length ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
+          scale: responsiveValues.scale,
+          opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
           duration: 1.8,
           ease: "power3.inOut",
         },
