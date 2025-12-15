@@ -145,9 +145,9 @@ export const useHeroAnimation = (
         2,
       )
 
-      // Phase 5: Hide Dedication & Show Secondary Text
+      // Phase 5: Hide Title & Show Secondary Text
       tl.to(
-        ".dedication-wrapper",
+        ".text-content-wrapper",
         {
           opacity: 0,
           duration: 0.5,
