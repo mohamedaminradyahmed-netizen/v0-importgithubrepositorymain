@@ -77,20 +77,6 @@ export const useHeroAnimation = (
         "-=1.5",
       )
 
-      tl.fromTo(
-        ".dedication-wrapper",
-        { opacity: 0, y: 300, scale: 0.9 },
-        {
-          opacity: 1,
-          y: -240,
-          scale: 1,
-          duration: 2,
-          ease: "power2.out",
-          zIndex: 30,
-        },
-        "<",
-      )
-
       tl.set(
         ".phase-5-wrapper",
         {
@@ -108,16 +94,6 @@ export const useHeroAnimation = (
           ease: "none",
         },
         0.5,
-      )
-
-      tl.to(
-        ".dedication-wrapper",
-        {
-          y: -240,
-          duration: 1,
-          ease: "none",
-        },
-        "<",
       )
 
       // Phase 3: Card Animation Setup
