@@ -85,7 +85,7 @@ export const HeroAnimation = () => {
                 height: "100vh",
               }}
             >
-              {/* The 7 V-Shape Cards */}
+              {/* The V-Shape Cards */}
               {responsiveValues.vShapePositions.map((pos, i) => (
                 <div
                   key={`v-card-${i}`}
@@ -100,11 +100,13 @@ export const HeroAnimation = () => {
                   }}
                 >
                   <div
-                    className="w-full h-full overflow-hidden bg-[#0a0a0a] relative"
+                    className="card-elite w-full h-full overflow-hidden relative transition-transform duration-500 ease-out hover:-translate-y-1"
                     style={{
                       borderRadius: "24px",
                       border: "1px solid rgba(255,255,255,0.10)",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)",
+                      backgroundColor: "rgba(10,10,10,0.15)",
+                      backdropFilter: "blur(8px)",
+                      boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
                     }}
                   >
                     <ImageWithFallback
