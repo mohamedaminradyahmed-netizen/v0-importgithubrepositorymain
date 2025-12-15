@@ -157,7 +157,7 @@ export const useHeroAnimation = (
         2,
       )
 
-      // Phase 5: Hide Dedication & Shrink to Center
+      // Phase 5: Hide Dedication & Show Secondary Text
 
       // 5.1: Hide Dedication Text First
       tl.to(
@@ -170,6 +170,7 @@ export const useHeroAnimation = (
         "+=0.5",
       )
 
+      // 5.2: Show Secondary Text in same position
       tl.to(
         ".phase-5-wrapper",
         {
@@ -180,7 +181,7 @@ export const useHeroAnimation = (
         "<+=0.2",
       )
 
-      // 5.3: Shrink THE UNIFIED ENTITY + النصين معاهم (كلهم سوياً)
+      // 5.3: Shrink THE UNIFIED ENTITY
       tl.to(
         ".unified-entity",
         {
@@ -203,7 +204,7 @@ export const useHeroAnimation = (
         "<",
       )
 
-      // Scale النصين مع الحاوية (وهم في مكانهم فوق)
+      // Scale text with container
       tl.to(
         [".text-content-wrapper", ".phase-5-wrapper"],
         {
@@ -214,7 +215,7 @@ export const useHeroAnimation = (
         "<",
       )
 
-      // 5.4: TEXT SWAP - بعد التموضع (في نفس أماكنهم - كل واحدة مكان التانية)
+      // 5.4: TEXT SWAP
       tl.to(
         [".text-content-wrapper", ".phase-5-wrapper"],
         {
@@ -231,15 +232,8 @@ export const useHeroAnimation = (
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
         if (mainTitle && secondaryText) {
-          // النسخة becomes big (main title)
           mainTitle.textContent = "النسخة"
-          // بس اصلي becomes small (secondary)
           secondaryText.textContent = "بس اصلي"
-
-          console.log("✅ TEXT SWAP في نفس الأماكن:", {
-            big: mainTitle.textContent,
-            small: secondaryText.textContent,
-          })
         }
       })
 
@@ -249,25 +243,7 @@ export const useHeroAnimation = (
         ease: "power2.inOut",
       })
 
-      // 6. PARALLAX JOURNEY - DYNAMIC STACKING & DESCENT
-      const group1 = gsap.utils.toArray(".grid-card-g1")
-      const group2 = gsap.utils.toArray(".grid-card-g2")
-      const group3 = gsap.utils.toArray(".grid-card-g3")
-
-      // STAGE 1: Group1 appears around container
-      tl.to(
-        group1,
-        {
-          y: 0,
-          opacity: 1,
-          duration: 2,
-          stagger: 0.15,
-          ease: "power3.out",
-        },
-        "+=0.5",
-      )
-
-      // STAGE 2: Container + Group1 descend as ONE entity, Group2 appears during descent
+      // Final scene container movement
       tl.to(
         ".scene-container",
         {
@@ -276,114 +252,6 @@ export const useHeroAnimation = (
           ease: "power2.inOut",
         },
         "+=0.8",
-      )
-
-      tl.to(
-        group1,
-        {
-          y: -150,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
-      )
-
-      // Group2 appears while everything descends
-      tl.to(
-        group2,
-        {
-          y: 0,
-          opacity: 1,
-          duration: 2,
-          stagger: 0.15,
-          ease: "power3.out",
-        },
-        "-=2",
-      )
-
-      // STAGE 3: Container + Group1 + Group2 descend together, Group3 appears
-      tl.to(
-        ".scene-container",
-        {
-          y: -300,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "+=0.5",
-      )
-
-      tl.to(
-        group1,
-        {
-          y: -300,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
-      )
-
-      tl.to(
-        group2,
-        {
-          y: -150,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
-      )
-
-      // Group3 appears during descent
-      tl.to(
-        group3,
-        {
-          y: 0,
-          opacity: 1,
-          duration: 2,
-          stagger: 0.15,
-          ease: "power3.out",
-        },
-        "-=2",
-      )
-
-      // STAGE 4: Final descent - ALL layers move together to final position
-      tl.to(
-        ".scene-container",
-        {
-          y: -450,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "+=0.5",
-      )
-
-      tl.to(
-        group1,
-        {
-          y: -450,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
-      )
-
-      tl.to(
-        group2,
-        {
-          y: -300,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
-      )
-
-      tl.to(
-        group3,
-        {
-          y: -150,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "<",
       )
 
       tl.to({}, { duration: 2 }) // Final hold
