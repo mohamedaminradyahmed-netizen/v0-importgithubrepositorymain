@@ -45,28 +45,21 @@ export const HeroAnimation = () => {
             LAYER 2: TEXT BLOCK (Bas Asli + Dedication)
            ========================================= */}
 
-        {/* Main Title Wrapper */}
-        <div className="text-layer-container absolute top-0 left-0 w-full h-full z-[55] m-0 p-0 pointer-events-none">
-          <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
-            <div className="text-content-wrapper flex flex-col items-center justify-center w-auto -ml-0.5 opacity-0">
-              {/* Bas Asli */}
-              <h1
-                className="text-main font-black tracking-tight leading-[0.9] text-center"
-                style={{
-                  fontSize: "clamp(2.8rem, 7vw, 6rem)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                بس اصلي
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        {/* Dedication Layer - Independent to fade out first */}
-        <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
-            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+        {/* Main Title & Subtitle Wrapper */}
+        <div className="text-layer-container absolute inset-0 z-[55] flex flex-col items-center justify-center pointer-events-none">
+          <div className="text-content-wrapper flex flex-col items-center justify-center gap-y-3 opacity-0">
+            {/* Bas Asli */}
+            <h1
+              className="text-main font-black tracking-tight leading-[0.9] text-center"
+              style={{
+                fontSize: "clamp(2.6rem, 6vw, 5rem)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              بس اصلي
+            </h1>
+            {/* Dedication */}
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/70 text-center font-sans tracking-[0.2em]">
               اهداء ليسري نصر الله
             </p>
           </div>
