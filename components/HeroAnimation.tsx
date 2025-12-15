@@ -18,11 +18,14 @@ export const HeroAnimation = () => {
       ref={containerRef}
       className="bg-black text-white relative overflow-hidden"
       dir="rtl"
-      style={{ minHeight: "100vh" }}
+      style={{
+        minHeight: "100vh",
+        background: "radial-gradient(ellipse at 50% 30%, rgba(20,20,25,1) 0%, rgba(0,0,0,1) 70%)",
+      }}
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
-      <div className="fixed top-0 left-0 right-0 z-[9999] h-20 flex justify-center items-center pointer-events-none shadow-[0_4px_12px_rgba(0,0,0,0.8)] bg-black/90 backdrop-blur-sm border-b border-white/10 opacity-0 fixed-header">
-        <span className="font-bold tracking-widest text-[24px] text-white font-sans">النسخة</span>
+      <div className="fixed top-0 left-0 right-0 z-[9999] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
+        <span className="font-bold tracking-[0.25em] text-[22px] text-white/90 font-sans uppercase">النسخة</span>
       </div>
 
       <div ref={triggerRef} className="h-screen w-full relative flex flex-col items-center justify-center">
@@ -47,7 +50,13 @@ export const HeroAnimation = () => {
           <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
             <div className="text-content-wrapper flex flex-col items-center justify-center w-auto -ml-0.5 opacity-0">
               {/* Bas Asli */}
-              <h1 className="text-main text-[36px] sm:text-[48px] md:text-[72px] lg:text-[128px] font-black tracking-tighter leading-tight text-center">
+              <h1
+                className="text-main font-black tracking-tight leading-[0.9] text-center"
+                style={{
+                  fontSize: "clamp(2.8rem, 7vw, 6rem)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 بس اصلي
               </h1>
             </div>
@@ -56,8 +65,8 @@ export const HeroAnimation = () => {
 
         {/* Dedication Layer - Independent to fade out first */}
         <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-28 md:pt-36 mr-8 md:mr-20 opacity-0">
-            <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] font-bold text-white/80 text-center font-sans tracking-widest">
+          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               اهداء ليسري نصر الله
             </p>
           </div>
@@ -80,7 +89,7 @@ export const HeroAnimation = () => {
               {responsiveValues.vShapePositions.map((pos, i) => (
                 <div
                   key={`v-card-${i}`}
-                  className="phase-3-img absolute shadow-2xl origin-center"
+                  className="phase-3-img absolute origin-center"
                   style={{
                     width: `${responsiveValues.cardWidth}px`,
                     height: `${responsiveValues.cardHeight}px`,
@@ -90,7 +99,14 @@ export const HeroAnimation = () => {
                     zIndex: 40 - Math.abs(i - 3),
                   }}
                 >
-                  <div className="w-full h-full rounded-[12px] overflow-hidden border border-white/20 bg-[#111]">
+                  <div
+                    className="w-full h-full overflow-hidden bg-[#0a0a0a]"
+                    style={{
+                      borderRadius: "24px",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)",
+                    }}
+                  >
                     <img
                       src={images[i] || "/placeholder.svg"}
                       alt={`Scene ${i}`}
@@ -108,8 +124,8 @@ export const HeroAnimation = () => {
             (Appears AFTER dedication fades - SAME position & size)
            ========================================= */}
         <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-28 md:pt-36 mr-8 md:mr-20">
-            <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] font-bold text-white/80 text-center font-sans tracking-widest">
+          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20">
+            <p className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               النسخة
             </p>
           </div>

@@ -48,7 +48,6 @@ export const useHeroAnimation = (
         pointerEvents: "none",
       })
 
-      // Show Fixed Header with Video fade out
       tl.to(
         ".fixed-header",
         {
@@ -59,7 +58,6 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
-      // Show text content wrapper
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -74,7 +72,6 @@ export const useHeroAnimation = (
         "-=1.5",
       )
 
-      // Show dedication wrapper
       tl.fromTo(
         ".dedication-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -98,7 +95,6 @@ export const useHeroAnimation = (
         "<",
       )
 
-      // Phase 3: Text Lock in Place & Cards Start Appearing
       tl.to(
         ".text-content-wrapper",
         {
@@ -134,7 +130,7 @@ export const useHeroAnimation = (
         )
       })
 
-      // Phase 4: V-Shape Formation
+      // Added slightly longer duration (1.8 from 1.5) for smoother, premium feel
       tl.to(
         ".phase-3-img",
         {
@@ -149,17 +145,15 @@ export const useHeroAnimation = (
           xPercent: -50,
           yPercent: -50,
           rotation: (i) => (i < 7 ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
-          scale: 0.85,
+          scale: 0.8,
           opacity: (i) => (i < 7 ? 1 : 0),
-          duration: 1.5,
+          duration: 1.8,
           ease: "power3.inOut",
         },
         2,
       )
 
       // Phase 5: Hide Dedication & Show Secondary Text
-
-      // 5.1: Hide Dedication Text First
       tl.to(
         ".dedication-wrapper",
         {
@@ -170,7 +164,6 @@ export const useHeroAnimation = (
         "+=0.5",
       )
 
-      // 5.2: Show Secondary Text in same position
       tl.to(
         ".phase-5-wrapper",
         {
@@ -181,7 +174,7 @@ export const useHeroAnimation = (
         "<+=0.2",
       )
 
-      // 5.3: Shrink THE UNIFIED ENTITY
+      // 5.3: Shrink THE UNIFIED ENTITY - DO NOT MODIFY FROM HERE
       tl.to(
         ".unified-entity",
         {
@@ -204,7 +197,6 @@ export const useHeroAnimation = (
         "<",
       )
 
-      // Scale text with container
       tl.to(
         [".text-content-wrapper", ".phase-5-wrapper"],
         {
@@ -215,7 +207,6 @@ export const useHeroAnimation = (
         "<",
       )
 
-      // 5.4: TEXT SWAP
       tl.to(
         [".text-content-wrapper", ".phase-5-wrapper"],
         {
@@ -226,7 +217,6 @@ export const useHeroAnimation = (
         "+=0.5",
       )
 
-      // Swap positions & content
       tl.call(() => {
         const mainTitle = document.querySelector(".text-content-wrapper h1")
         const secondaryText = document.querySelector(".phase-5-wrapper p")
@@ -243,7 +233,6 @@ export const useHeroAnimation = (
         ease: "power2.inOut",
       })
 
-      // Final scene container movement
       tl.to(
         ".scene-container",
         {
@@ -254,7 +243,7 @@ export const useHeroAnimation = (
         "+=0.8",
       )
 
-      tl.to({}, { duration: 2 }) // Final hold
+      tl.to({}, { duration: 2 })
     }, containerRef)
 
     return () => {
