@@ -1,7 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { HeroAnimation } from "@/components/HeroAnimation"
-import "@fontsource/cairo"
 import "./app/globals.css"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
