@@ -124,12 +124,12 @@ export const HeroAnimation = () => {
         </div>
 
         {/* =========================================
-            LAYER 4: SECONDARY TEXT "النسخة" 
+            LAYER 4: SECONDARY TEXT "النسخة"
             (Appears AFTER dedication fades - SAME position & size)
            ========================================= */}
         <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20">
-            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center gap-y-3">
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/70 text-center font-sans tracking-[0.2em]">
               النسخة
             </p>
           </div>
