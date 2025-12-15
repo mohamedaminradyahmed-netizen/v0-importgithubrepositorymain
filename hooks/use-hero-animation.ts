@@ -15,7 +15,7 @@ export const useHeroAnimation = (
 
   useEffect(() => {
     const handleResize = () => {
-      setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth))
+      setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth, window.innerHeight))
     }
     handleResize()
     window.addEventListener("resize", handleResize)
@@ -130,7 +130,6 @@ export const useHeroAnimation = (
         )
       })
 
-      // Added slightly longer duration (1.8 from 1.5) for smoother, premium feel
       tl.to(
         ".phase-3-img",
         {
@@ -145,7 +144,7 @@ export const useHeroAnimation = (
           xPercent: -50,
           yPercent: -50,
           rotation: (i) => (i < 7 ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
-          scale: 0.8,
+          scale: 0.78,
           opacity: (i) => (i < 7 ? 1 : 0),
           duration: 1.8,
           ease: "power3.inOut",

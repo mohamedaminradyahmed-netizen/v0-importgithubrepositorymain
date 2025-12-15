@@ -9,6 +9,10 @@ export interface ResponsiveConfig {
   }
 }
 
+const HEADER_H = 96 // matches h-24
+const TOP_SAFE = HEADER_H + 24
+const BOTTOM_GAP = 88 // space under the lowest card
+
 class HeroConfiguration {
   private static instance: HeroConfiguration
   private constructor() {}
@@ -20,23 +24,42 @@ class HeroConfiguration {
     return HeroConfiguration.instance
   }
 
-  public getResponsiveValues(width: number): ResponsiveConfig {
+  public getResponsiveValues(width: number, height = 900): ResponsiveConfig {
     const isMobile = width < 768
 
+    const cardWidth = isMobile ? 100 : 190
+    const cardHeight = isMobile ? 150 : 275
+
+    const yTop = TOP_SAFE + cardHeight / 2 + 8
+    const yBottom = height - BOTTOM_GAP - cardHeight / 2
+    const yMid1 = yTop + (yBottom - yTop) * 0.45
+    const yMid2 = yTop + (yBottom - yTop) * 0.75
+
+    // Calmer rotations for premium feel (was ±20, ±12, ±6, now ±14, ±10, ±6)
+    const vShapePositions = isMobile
+      ? [
+          { top: `${Math.round(yTop)}px`, left: "82%", rotation: 12 },
+          { top: `${Math.round(yMid1)}px`, left: "70%", rotation: 8 },
+          { top: `${Math.round(yMid2)}px`, left: "60%", rotation: 4 },
+          { top: `${Math.round(yBottom)}px`, left: "50%", rotation: 0 },
+          { top: `${Math.round(yMid2)}px`, left: "40%", rotation: -4 },
+          { top: `${Math.round(yMid1)}px`, left: "30%", rotation: -8 },
+          { top: `${Math.round(yTop)}px`, left: "18%", rotation: -12 },
+        ]
+      : [
+          { top: `${Math.round(yTop)}px`, left: "78%", rotation: 14 }, // Far Right (1)
+          { top: `${Math.round(yMid1)}px`, left: "66%", rotation: 10 }, // Scene 2 Right (2)
+          { top: `${Math.round(yMid2)}px`, left: "58%", rotation: 6 }, // Near Right (3)
+          { top: `${Math.round(yBottom)}px`, left: "50%", rotation: 0 }, // Center Bottom (4)
+          { top: `${Math.round(yMid2)}px`, left: "42%", rotation: -6 }, // Near Left (5)
+          { top: `${Math.round(yMid1)}px`, left: "34%", rotation: -10 }, // Scene 2 Left (6)
+          { top: `${Math.round(yTop)}px`, left: "22%", rotation: -14 }, // Far Left (7)
+        ]
+
     return {
-      cardWidth: isMobile ? 110 : 200,
-      cardHeight: isMobile ? 165 : 290,
-
-      vShapePositions: [
-        { top: "28%", left: "85%", rotation: 20 }, // Far Right (1) - أعلى اليمين
-        { top: "52%", left: "72%", rotation: 12 }, // Scene 2 Right (2) - تحت الوسط يمين
-        { top: "70%", left: "62%", rotation: 6 }, // Near Right (3) - أقرب للوسط
-        { top: "85%", left: "50%", rotation: 0 }, // Center Bottom (4) - المنتصف
-        { top: "70%", left: "38%", rotation: -6 }, // Near Left (5) - أقرب للوسط
-        { top: "52%", left: "28%", rotation: -12 }, // Scene 2 Left (6) - تحت الوسط يسار
-        { top: "28%", left: "15%", rotation: -20 }, // Far Left (7) - أعلى اليسار
-      ],
-
+      cardWidth,
+      cardHeight,
+      vShapePositions,
       surroundingGroups: {
         group1: [
           { top: "5%", left: "5%", width: "18%", height: "25%" },

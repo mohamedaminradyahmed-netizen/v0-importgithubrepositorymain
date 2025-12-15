@@ -3,6 +3,7 @@
 import { useRef } from "react"
 import { VideoTextMask } from "./VideoTextMask"
 import { useHeroAnimation } from "@/hooks/use-hero-animation"
+import { ImageWithFallback } from "./figma/ImageWithFallback"
 import images from "@/lib/images"
 
 export const HeroAnimation = () => {
@@ -42,7 +43,6 @@ export const HeroAnimation = () => {
 
         {/* =========================================
             LAYER 2: TEXT BLOCK (Bas Asli + Dedication)
-            Refactored to match user's preferred structure with nested wrappers.
            ========================================= */}
 
         {/* Main Title Wrapper */}
@@ -66,7 +66,7 @@ export const HeroAnimation = () => {
         {/* Dedication Layer - Independent to fade out first */}
         <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
           <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               اهداء ليسري نصر الله
             </p>
           </div>
@@ -100,17 +100,26 @@ export const HeroAnimation = () => {
                   }}
                 >
                   <div
-                    className="w-full h-full overflow-hidden bg-[#0a0a0a]"
+                    className="w-full h-full overflow-hidden bg-[#0a0a0a] relative"
                     style={{
                       borderRadius: "24px",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)",
                     }}
                   >
-                    <img
+                    <ImageWithFallback
                       src={images[i] || "/placeholder.svg"}
                       alt={`Scene ${i}`}
                       className="w-full h-full object-cover"
+                    />
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%)",
+                        opacity: 0.6,
+                        borderRadius: "24px",
+                      }}
                     />
                   </div>
                 </div>
@@ -125,7 +134,7 @@ export const HeroAnimation = () => {
            ========================================= */}
         <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
           <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20">
-            <p className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               النسخة
             </p>
           </div>
