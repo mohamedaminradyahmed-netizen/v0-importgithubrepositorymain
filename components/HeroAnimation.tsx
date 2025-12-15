@@ -21,7 +21,7 @@ export const HeroAnimation = () => {
       dir="rtl"
       style={{
         minHeight: "100vh",
-        background: "radial-gradient(ellipse at 50% 30%, rgba(20,20,25,1) 0%, rgba(0,0,0,1) 70%)",
+        background: "radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.9) 80%)",
       }}
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
