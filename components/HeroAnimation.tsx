@@ -2,8 +2,8 @@
 
 import { useRef } from "react"
 import { VideoTextMask } from "./VideoTextMask"
-import { useHeroAnimation } from "../../hooks/use-hero-animation"
-import images from "../../lib/images"
+import { useHeroAnimation } from "@/hooks/use-hero-animation"
+import images from "@/lib/images"
 
 export const HeroAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -57,7 +57,7 @@ export const HeroAnimation = () => {
         {/* Dedication Layer - Independent to fade out first */}
         <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
           <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-28 md:pt-36 mr-8 md:mr-20 opacity-0">
-            <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-bold text-white/80 text-center font-sans tracking-widest">
+            <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] font-bold text-white/80 text-center font-sans tracking-widest">
               اهداء ليسري نصر الله
             </p>
           </div>
@@ -107,9 +107,9 @@ export const HeroAnimation = () => {
             LAYER 4: SECONDARY TEXT "النسخة" 
             (Appears AFTER dedication fades - SAME position & size)
            ========================================= */}
-        <div className="phase-5-layer fixed inset-0 z-[100] flex flex-col items-center justify-center pointer-events-none">
-          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-24 md:pt-32">
-            <p className="text-[18px] sm:text-[20px] md:text-[24px] lg:text-[30px] font-light text-white/80 text-center">
+        <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-28 md:pt-36 mr-8 md:mr-20">
+            <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] font-bold text-white/80 text-center font-sans tracking-widest">
               النسخة
             </p>
           </div>

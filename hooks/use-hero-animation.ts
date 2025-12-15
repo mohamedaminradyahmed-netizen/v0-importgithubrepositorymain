@@ -1,13 +1,15 @@
-import { useState, useEffect, useLayoutEffect, RefObject } from "react"
+"use client"
+
+import { useState, useEffect, useLayoutEffect, type RefObject } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { heroConfig, ResponsiveConfig } from "../lib/hero-config"
+import { heroConfig, type ResponsiveConfig } from "../lib/hero-config"
 
 gsap.registerPlugin(ScrollTrigger)
 
 export const useHeroAnimation = (
   containerRef: RefObject<HTMLDivElement | null>,
-  triggerRef: RefObject<HTMLDivElement | null>
+  triggerRef: RefObject<HTMLDivElement | null>,
 ) => {
   const [responsiveValues, setResponsiveValues] = useState<ResponsiveConfig | null>(null)
 
@@ -47,12 +49,16 @@ export const useHeroAnimation = (
       })
 
       // Show Fixed Header with Video fade out
-      tl.to(".fixed-header", { 
-        opacity: 1, 
-        duration: 1.5,
-        ease: "power2.inOut"
-      }, "-=2.5")
-      
+      tl.to(
+        ".fixed-header",
+        {
+          opacity: 1,
+          duration: 1.5,
+          ease: "power2.inOut",
+        },
+        "-=2.5",
+      )
+
       // Show text content wrapper
       tl.fromTo(
         ".text-content-wrapper",
@@ -67,7 +73,7 @@ export const useHeroAnimation = (
         },
         "-=1.5",
       )
-      
+
       // Show dedication wrapper
       tl.fromTo(
         ".dedication-wrapper",
@@ -83,6 +89,15 @@ export const useHeroAnimation = (
         "<",
       )
 
+      tl.set(
+        ".phase-5-wrapper",
+        {
+          y: -240,
+          scale: 1,
+        },
+        "<",
+      )
+
       // Phase 3: Text Lock in Place & Cards Start Appearing
       tl.to(
         ".text-content-wrapper",
@@ -93,7 +108,7 @@ export const useHeroAnimation = (
         },
         0.5,
       )
-      
+
       tl.to(
         ".dedication-wrapper",
         {
@@ -145,47 +160,70 @@ export const useHeroAnimation = (
       // Phase 5: Hide Dedication & Shrink to Center
 
       // 5.1: Hide Dedication Text First
-      tl.to(".dedication-wrapper", {
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.inOut"
-      }, "+=0.5")
+      tl.to(
+        ".dedication-wrapper",
+        {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        "+=0.5",
+      )
 
-      // 5.2: Reveal "النسخة" in SAME position & SAME size as dedication
-      tl.to(".phase-5-wrapper", {
-        opacity: 1,
-        duration: 0.5,
-        ease: "power2.inOut"
-      }, "<+=0.2")
+      tl.to(
+        ".phase-5-wrapper",
+        {
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        "<+=0.2",
+      )
 
       // 5.3: Shrink THE UNIFIED ENTITY + النصين معاهم (كلهم سوياً)
-      tl.to(".unified-entity", {
-        scale: 0.5,
-        duration: 4,
-        ease: "power3.inOut"
-      }, "+=0.5")
+      tl.to(
+        ".unified-entity",
+        {
+          scale: 0.5,
+          duration: 4,
+          ease: "power3.inOut",
+        },
+        "+=0.5",
+      )
 
-      tl.to(".v-shape-container", {
-        borderRadius: "2rem",
-        border: "1px solid rgba(255,255,255,0.2)",
-        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
-        duration: 4,
-        ease: "power3.inOut"
-      }, "<")
+      tl.to(
+        ".v-shape-container",
+        {
+          borderRadius: "2rem",
+          border: "1px solid rgba(255,255,255,0.2)",
+          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
+          duration: 4,
+          ease: "power3.inOut",
+        },
+        "<",
+      )
 
       // Scale النصين مع الحاوية (وهم في مكانهم فوق)
-      tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
-        scale: 0.5,
-        duration: 4,
-        ease: "power3.inOut"
-      }, "<")
+      tl.to(
+        [".text-content-wrapper", ".phase-5-wrapper"],
+        {
+          scale: 0.5,
+          duration: 4,
+          ease: "power3.inOut",
+        },
+        "<",
+      )
 
       // 5.4: TEXT SWAP - بعد التموضع (في نفس أماكنهم - كل واحدة مكان التانية)
-      tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.inOut"
-      }, "+=0.5")
+      tl.to(
+        [".text-content-wrapper", ".phase-5-wrapper"],
+        {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        "+=0.5",
+      )
 
       // Swap positions & content
       tl.call(() => {
@@ -200,7 +238,7 @@ export const useHeroAnimation = (
 
           console.log("✅ TEXT SWAP في نفس الأماكن:", {
             big: mainTitle.textContent,
-            small: secondaryText.textContent
+            small: secondaryText.textContent,
           })
         }
       })
@@ -208,100 +246,147 @@ export const useHeroAnimation = (
       tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
         opacity: 1,
         duration: 0.5,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       })
 
       // 6. PARALLAX JOURNEY - DYNAMIC STACKING & DESCENT
       const group1 = gsap.utils.toArray(".grid-card-g1")
       const group2 = gsap.utils.toArray(".grid-card-g2")
       const group3 = gsap.utils.toArray(".grid-card-g3")
-      
+
       // STAGE 1: Group1 appears around container
-      tl.to(group1, { 
-        y: 0, 
-        opacity: 1, 
-        duration: 2, 
-        stagger: 0.15, 
-        ease: "power3.out" 
-      }, "+=0.5")
-      
+      tl.to(
+        group1,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 2,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "+=0.5",
+      )
+
       // STAGE 2: Container + Group1 descend as ONE entity, Group2 appears during descent
-      tl.to(".scene-container", { 
-        y: -150, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "+=0.8")
-      
-      tl.to(group1, { 
-        y: -150, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
-      
+      tl.to(
+        ".scene-container",
+        {
+          y: -150,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "+=0.8",
+      )
+
+      tl.to(
+        group1,
+        {
+          y: -150,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
+
       // Group2 appears while everything descends
-      tl.to(group2, { 
-        y: 0, 
-        opacity: 1, 
-        duration: 2, 
-        stagger: 0.15, 
-        ease: "power3.out" 
-      }, "-=2")
-      
+      tl.to(
+        group2,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 2,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "-=2",
+      )
+
       // STAGE 3: Container + Group1 + Group2 descend together, Group3 appears
-      tl.to(".scene-container", { 
-        y: -300, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "+=0.5")
-      
-      tl.to(group1, { 
-        y: -300, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
-      
-      tl.to(group2, { 
-        y: -150, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
-      
+      tl.to(
+        ".scene-container",
+        {
+          y: -300,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "+=0.5",
+      )
+
+      tl.to(
+        group1,
+        {
+          y: -300,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
+
+      tl.to(
+        group2,
+        {
+          y: -150,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
+
       // Group3 appears during descent
-      tl.to(group3, { 
-        y: 0, 
-        opacity: 1, 
-        duration: 2, 
-        stagger: 0.15, 
-        ease: "power3.out" 
-      }, "-=2")
-      
+      tl.to(
+        group3,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 2,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "-=2",
+      )
+
       // STAGE 4: Final descent - ALL layers move together to final position
-      tl.to(".scene-container", { 
-        y: -450, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "+=0.5")
-      
-      tl.to(group1, { 
-        y: -450, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
-      
-      tl.to(group2, { 
-        y: -300, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
-      
-      tl.to(group3, { 
-        y: -150, 
-        duration: 3, 
-        ease: "power2.inOut" 
-      }, "<")
+      tl.to(
+        ".scene-container",
+        {
+          y: -450,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "+=0.5",
+      )
+
+      tl.to(
+        group1,
+        {
+          y: -450,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
+
+      tl.to(
+        group2,
+        {
+          y: -300,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
+
+      tl.to(
+        group3,
+        {
+          y: -150,
+          duration: 3,
+          ease: "power2.inOut",
+        },
+        "<",
+      )
 
       tl.to({}, { duration: 2 }) // Final hold
-
     }, containerRef)
 
     return () => {
