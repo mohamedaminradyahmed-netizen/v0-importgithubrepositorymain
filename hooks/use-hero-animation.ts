@@ -48,7 +48,7 @@ export const useHeroAnimation = (
         scale: 5,
         y: -600,
         opacity: 0,
-        duration: 2.5,
+        duration: 3,
         ease: "power2.inOut",
         pointerEvents: "none",
       })
@@ -121,7 +121,7 @@ export const useHeroAnimation = (
           img,
           { y: "120vh", rotation: 0, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-          2.5 + staggerDelay,
+          1.2 + staggerDelay,
         )
       })
 
