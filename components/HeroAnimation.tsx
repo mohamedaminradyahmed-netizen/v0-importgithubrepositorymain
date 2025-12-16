@@ -65,8 +65,8 @@ export const HeroAnimation = () => {
 
         {/* Dedication Layer - Independent to fade out first */}
         <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
-            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-45 mr-19 md:mr-44 opacity-0">
+            <p className="text-[10px] sm:text-[14px] md:text-[16px] lg:text-[16px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               اهداء ليسري نصر الله
             </p>
           </div>
@@ -78,49 +78,25 @@ export const HeroAnimation = () => {
         <div className="scene-container fixed inset-0 z-[40] flex items-center justify-center pointer-events-none">
           {/* UNIFIED ENTITY WRAPPER - All elements scale together as ONE */}
           <div className="unified-entity relative w-full h-full flex items-center justify-center">
-            <div
-              className="v-shape-container relative bg-transparent overflow-visible flex items-center justify-center"
-              style={{
-                width: "100vw",
-                height: "100vh",
-              }}
-            >
-              {/* The 7 V-Shape Cards */}
+            <div className="v-shape-container relative bg-transparent overflow-visible flex items-center justify-center w-screen h-screen">
+              {/* The V-Shape Cards */}
               {responsiveValues.vShapePositions.map((pos, i) => (
                 <div
                   key={`v-card-${i}`}
-                  className="phase-3-img absolute origin-center"
+                  className="phase-3-img hero-vcard absolute origin-center"
                   style={{
                     width: `${responsiveValues.cardWidth}px`,
                     height: `${responsiveValues.cardHeight}px`,
-                    left: "50%",
-                    top: "150%",
-                    transform: "translate(-50%, -50%)",
                     zIndex: 40 - Math.abs(i - 3),
                   }}
                 >
-                  <div
-                    className="w-full h-full overflow-hidden bg-[#0a0a0a] relative"
-                    style={{
-                      borderRadius: "24px",
-                      border: "1px solid rgba(255,255,255,0.10)",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)",
-                    }}
-                  >
+                  <div className="card-elite w-full h-full overflow-hidden relative">
                     <ImageWithFallback
                       src={images[i] || "/placeholder.svg"}
                       alt={`Scene ${i}`}
                       className="w-full h-full object-cover"
                     />
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%)",
-                        opacity: 0.6,
-                        borderRadius: "24px",
-                      }}
-                    />
+                    <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
                   </div>
                 </div>
               ))}
@@ -129,14 +105,12 @@ export const HeroAnimation = () => {
         </div>
 
         {/* =========================================
-            LAYER 4: SECONDARY TEXT "النسخة" 
+            LAYER 4: SECONDARY TEXT "النسخة"
             (Appears AFTER dedication fades - SAME position & size)
            ========================================= */}
         <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20">
-            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
-              النسخة
-            </p>
+          <div className="phase-5-wrapper hero-title-stack opacity-0">
+            <p className="hero-secondary-label">النسخة</p>
           </div>
         </div>
       </div>

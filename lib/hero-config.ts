@@ -2,6 +2,7 @@ export interface ResponsiveConfig {
   cardWidth: number
   cardHeight: number
   vShapePositions: Array<{ top: string; left: string; rotation: number }>
+  scale: number
   surroundingGroups: {
     group1: Array<{ top: string; left: string; width: string; height: string }>
     group2: Array<{ top: string; left: string; width: string; height: string }>
@@ -11,7 +12,8 @@ export interface ResponsiveConfig {
 
 const HEADER_H = 96 // matches h-24
 const TOP_SAFE = HEADER_H + 24
-const BOTTOM_GAP = 88 // space under the lowest card
+const SAFE_BOTTOM = 80 // fixed bottom baseline
+const BOTTOM_GAP = SAFE_BOTTOM + 50
 
 class HeroConfiguration {
   private static instance: HeroConfiguration
@@ -25,40 +27,67 @@ class HeroConfiguration {
   }
 
   public getResponsiveValues(width: number, height = 900): ResponsiveConfig {
+    const isTablet = width >= 768 && width < 1280
+    const isDesktop = width >= 1280
     const isMobile = width < 768
 
-    const cardWidth = isMobile ? 100 : 190
-    const cardHeight = isMobile ? 150 : 275
+    let cardWidth: number
+    let cardHeight: number
+    let scale: number
+    let positions: Array<{ x: string; level: number; rotation: number }>
 
-    const yTop = TOP_SAFE + cardHeight / 2 + 8
-    const yBottom = height - BOTTOM_GAP - cardHeight / 2
-    const yMid1 = yTop + (yBottom - yTop) * 0.45
-    const yMid2 = yTop + (yBottom - yTop) * 0.75
+    if (isDesktop) {
+      // Desktop: 7 cards, tight V formation
+      cardWidth = 190
+      cardHeight = 275
+      scale = 0.82
+      positions = [
+        { x: "76%", level: 0, rotation: -10 }, // Far Left
+        { x: "66%", level: 1, rotation: -7 },  // Scene 2 Left
+        { x: "57%", level: 2, rotation: -4 },  // Near Left
+        { x: "50%", level: 3, rotation: 0 },   // Center
+        { x: "43%", level: 2, rotation: 4 },   // Near Right
+        { x: "34%", level: 1, rotation: 7 },   // Scene 2 Right
+        { x: "24%", level: 0, rotation: 10 },  // Far Right
+      ]
+    } else if (isTablet) {
+      // Tablet: 5 cards (hide 2 outer)
+      cardWidth = 160
+      cardHeight = 235
+      scale = 0.78
+      positions = [
+        { x: "66%", level: 1, rotation: -7 },  // Scene 2 Left
+        { x: "57%", level: 2, rotation: -4 },  // Near Left
+        { x: "50%", level: 3, rotation: 0 },   // Center
+        { x: "43%", level: 2, rotation: 4 },   // Near Right
+        { x: "34%", level: 1, rotation: 7 },   // Scene 2 Right
+      ]
+    } else {
+      // Mobile: 3-4 cards (center-weighted, shallow V)
+      cardWidth = 100
+      cardHeight = 150
+      scale = 0.74
+      positions = [
+        { x: "65%", level: 1, rotation: -6 },  // Left
+        { x: "50%", level: 2, rotation: 0 },   // Center
+        { x: "35%", level: 1, rotation: 6 },   // Right
+      ]
+    }
 
-    // Calmer rotations for premium feel (was ±20, ±12, ±6, now ±14, ±10, ±6)
-    const vShapePositions = isMobile
-      ? [
-          { top: `${Math.round(yTop)}px`, left: "82%", rotation: 12 },
-          { top: `${Math.round(yMid1)}px`, left: "70%", rotation: 8 },
-          { top: `${Math.round(yMid2)}px`, left: "60%", rotation: 4 },
-          { top: `${Math.round(yBottom)}px`, left: "50%", rotation: 0 },
-          { top: `${Math.round(yMid2)}px`, left: "40%", rotation: -4 },
-          { top: `${Math.round(yMid1)}px`, left: "30%", rotation: -8 },
-          { top: `${Math.round(yTop)}px`, left: "18%", rotation: -12 },
-        ]
-      : [
-          { top: `${Math.round(yTop)}px`, left: "78%", rotation: 14 }, // Far Right (1)
-          { top: `${Math.round(yMid1)}px`, left: "66%", rotation: 10 }, // Scene 2 Right (2)
-          { top: `${Math.round(yMid2)}px`, left: "58%", rotation: 6 }, // Near Right (3)
-          { top: `${Math.round(yBottom)}px`, left: "50%", rotation: 0 }, // Center Bottom (4)
-          { top: `${Math.round(yMid2)}px`, left: "42%", rotation: -6 }, // Near Left (5)
-          { top: `${Math.round(yMid1)}px`, left: "34%", rotation: -10 }, // Scene 2 Left (6)
-          { top: `${Math.round(yTop)}px`, left: "22%", rotation: -14 }, // Far Left (7)
-        ]
+    // Compute vertical positions using fixed baseline
+    const levelHeights = [20, 40, 60, 75]
+    const yPositions = levelHeights.map((level) => TOP_SAFE + (level / 100) * (height - TOP_SAFE - BOTTOM_GAP))
+
+    const vShapePositions = positions.map((pos, i) => ({
+      top: `${Math.round(yPositions[pos.level])}px`,
+      left: pos.x,
+      rotation: pos.rotation,
+    }))
 
     return {
       cardWidth,
       cardHeight,
+      scale,
       vShapePositions,
       surroundingGroups: {
         group1: [

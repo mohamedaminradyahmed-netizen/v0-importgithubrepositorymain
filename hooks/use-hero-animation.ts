@@ -13,6 +13,11 @@ export const useHeroAnimation = (
 ) => {
   const [responsiveValues, setResponsiveValues] = useState<ResponsiveConfig | null>(null)
 
+  // Fixed baseline constants for symmetric spacing
+  const HEADER_H = 96
+  const SAFE_BOTTOM = 80
+  const SAFE_TOP = HEADER_H + 24
+
   useEffect(() => {
     const handleResize = () => {
       setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth, window.innerHeight))
@@ -58,6 +63,7 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
+      // Phase 2: Title + Dedication (separate DOM, independent fades)
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -74,29 +80,29 @@ export const useHeroAnimation = (
 
       tl.fromTo(
         ".dedication-wrapper",
-        { opacity: 0, y: 300, scale: 0.9 },
+        { opacity: 0, y: 300, scale: 0.95 },
         {
           opacity: 1,
           y: -240,
           scale: 1,
           duration: 2,
           ease: "power2.out",
-          zIndex: 30,
+          zIndex: 29,
         },
-        "<",
+        "-=1.45",
       )
 
       tl.set(
         ".phase-5-wrapper",
         {
-          y: -240,
+          y: -270,
           scale: 1,
         },
         "<",
       )
 
       tl.to(
-        ".text-content-wrapper",
+        [".text-content-wrapper", ".dedication-wrapper"],
         {
           y: -240,
           duration: 1,
@@ -105,18 +111,12 @@ export const useHeroAnimation = (
         0.5,
       )
 
-      tl.to(
-        ".dedication-wrapper",
-        {
-          y: -240,
-          duration: 1,
-          ease: "none",
-        },
-        "<",
-      )
-
       // Phase 3: Card Animation Setup
       const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
+      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1280
+      const isMobile = window.innerWidth < 768
+      const compressionFactor = isTablet || isMobile ? 0.92 : 1
+
       phase3Images.forEach((img, i) => {
         const staggerDelay = i * 0.15
         const randomX = (i % 2 === 0 ? -1 : 1) * (Math.random() * 30 + 10)
@@ -134,33 +134,53 @@ export const useHeroAnimation = (
         ".phase-3-img",
         {
           top: (i) => {
-            if (i < 7) return responsiveValues.vShapePositions[i]?.top || "50%"
+            if (i < responsiveValues.vShapePositions.length) {
+              const topVal = responsiveValues.vShapePositions[i]?.top || "50%"
+              if (typeof topVal === "string" && topVal.endsWith("px")) {
+                const pxValue = parseInt(topVal, 10)
+                const compressed = SAFE_TOP + (pxValue - SAFE_TOP) * compressionFactor
+                return `${Math.round(compressed)}px`
+              }
+              return topVal
+            }
             return "100vh"
           },
           left: (i) => {
-            if (i < 7) return responsiveValues.vShapePositions[i]?.left || "50%"
+            if (i < responsiveValues.vShapePositions.length) return responsiveValues.vShapePositions[i]?.left || "50%"
             return "50%"
           },
           xPercent: -50,
           yPercent: -50,
-          rotation: (i) => (i < 7 ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
-          scale: 0.78,
-          opacity: (i) => (i < 7 ? 1 : 0),
+          rotation: (i) => (i < responsiveValues.vShapePositions.length ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
+          scale: responsiveValues.scale,
+          opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
           duration: 1.8,
           ease: "power3.inOut",
         },
         2,
       )
 
-      // Phase 5: Hide Dedication & Show Secondary Text
+      // Phase 5: Hide Title & Show Secondary Text
+      // Dedication fades first
       tl.to(
         ".dedication-wrapper",
+        {
+          opacity: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+        },
+        "+=0.4",
+      )
+
+      // Title fades after dedication
+      tl.to(
+        ".text-content-wrapper",
         {
           opacity: 0,
           duration: 0.5,
           ease: "power2.inOut",
         },
-        "+=0.5",
+        "<+=0.15",
       )
 
       tl.to(
@@ -197,7 +217,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".text-content-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           scale: 0.5,
           duration: 4,
@@ -207,7 +227,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".text-content-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           opacity: 0,
           duration: 0.5,
@@ -218,15 +238,17 @@ export const useHeroAnimation = (
 
       tl.call(() => {
         const mainTitle = document.querySelector(".text-content-wrapper h1")
+        const dedication = document.querySelector(".dedication-wrapper p")
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
-        if (mainTitle && secondaryText) {
-          mainTitle.textContent = "النسخة"
-          secondaryText.textContent = "بس اصلي"
+        if (mainTitle && secondaryText && dedication) {
+          mainTitle.textContent = "بس اصلي"
+          dedication.textContent = "اهداء ليسري نصر الله"
+          secondaryText.textContent = "النسخة"
         }
       })
 
-      tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
+      tl.to([".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"], {
         opacity: 1,
         duration: 0.5,
         ease: "power2.inOut",
