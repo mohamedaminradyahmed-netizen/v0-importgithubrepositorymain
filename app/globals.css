@@ -151,6 +151,38 @@
     text-align: center;
   }
 
+  /* CRITICAL FIX: Unified text style for both dedication and النسخة */
+  .unified-text-style {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    font-family: "Cairo", "Cairo Fallback", sans-serif;
+    letter-spacing: 0.2em;
+    line-height: 1.05;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 640px) {
+    .unified-text-style {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .unified-text-style {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .unified-text-style {
+      font-size: 20px;
+    }
+  }
+
   .hero-title-stack {
     @apply flex flex-col items-center justify-center gap-y-1;
   }
@@ -163,33 +195,6 @@
   .hero-dedication {
     @apply text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/70 text-center font-sans tracking-[0.2em];
     line-height: 1.05;
-  }
-
-  /* Fixed coordinates for dedication line (no flex alignment) */
-  .dedication-fixed {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 220px; /* default fixed vertical position */
-    width: auto;
-    max-width: 80%;
-  }
-
-  /* Adjust for tablet */
-  @media (max-width: 1279px) {
-    .dedication-fixed {
-      top: 180px;
-      max-width: 85%;
-    }
-  }
-
-  /* Adjust for mobile */
-  @media (max-width: 767px) {
-    .dedication-fixed {
-      top: 140px;
-      max-width: 90%;
-      font-size: 18px;
-    }
   }
 
   .hero-secondary-label {

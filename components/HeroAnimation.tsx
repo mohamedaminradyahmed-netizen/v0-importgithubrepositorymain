@@ -42,7 +42,7 @@ export const HeroAnimation = () => {
            ========================================= */}
         <div className="scene-container fixed inset-0 z-[40] flex items-center justify-center pointer-events-none">
           <div className="unified-entity relative w-full h-full flex items-center justify-center">
-            {/* V-Shape Container (Moved here) */}
+            {/* V-Shape Container */}
             <div className="v-shape-container absolute top-0 left-0 w-full h-full z-40 m-0 p-0">
               <div className="v-shape-cards-layer absolute inset-0">
                 {responsiveValues.vShapePositions.map((pos, i) => {
@@ -74,23 +74,25 @@ export const HeroAnimation = () => {
               </div>
 
               <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
+                {/* Main Title: "بس اصلي" */}
                 <div className="text-content-wrapper flex flex-col items-center justify-center w-auto z-30 -ml-0.5 opacity-0">
                   <h1 className="text-main text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-tight text-center">
                     بس اصلي
                   </h1>
                 </div>
 
-                <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-                  <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
-                    <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+                {/* CRITICAL FIX: Dedication and النسخة use SAME positioning wrapper */}
+                <div className="text-overlay-container absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+                  {/* Dedication Text: "اهداء ليسري نصر الله" */}
+                  <div className="dedication-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                    <p className="unified-text-style">
                       اهداء ليسري نصر الله
                     </p>
                   </div>
-                </div>
 
-                <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-                  <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
-                    <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+                  {/* Phase 5 Text: "النسخة" - SAME COORDINATES as dedication */}
+                  <div className="phase-5-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                    <p className="unified-text-style">
                       النسخة
                     </p>
                   </div>
