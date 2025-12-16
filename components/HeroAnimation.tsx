@@ -75,7 +75,7 @@ export const HeroAnimation = () => {
                 </div>
 
                 <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-                  <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-33 opacity-0">
+                  <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-77 opacity-0">
                     <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
                       اهداء ليسري نصر الله
                     </p>
