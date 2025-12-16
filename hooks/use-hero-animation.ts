@@ -63,7 +63,7 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
-      // Phase 2: Title + Dedication
+      // Phase 2: Title + Dedication (CRITICAL FIX: Set initial positions)
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -92,11 +92,13 @@ export const useHeroAnimation = (
         "-=1.45",
       )
 
+      // CRITICAL FIX: Position .phase-5-wrapper at exact same coordinates as .dedication-wrapper
       tl.set(
         ".phase-5-wrapper",
         {
-          y: -270,
+          y: -240,
           scale: 1,
+          opacity: 0,
         },
         "<",
       )
@@ -147,36 +149,31 @@ export const useHeroAnimation = (
         2,
       )
 
-      // Phase 5: Hide Title & Show Secondary Text
+      // Phase 5: CRITICAL FIX - Direct transition from dedication to النسخة
+      // Hide dedication text immediately
       tl.to(
         ".dedication-wrapper",
         {
           opacity: 0,
-          duration: 0.45,
+          duration: 0.4,
           ease: "power2.inOut",
         },
         "+=0.4",
       )
 
-      tl.to(
-        ".text-content-wrapper",
-        {
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-        },
-        "<+=0.15",
-      )
-
+      // CRITICAL FIX: Show النسخة immediately after dedication fades (no intermediate step)
       tl.to(
         ".phase-5-wrapper",
         {
           opacity: 1,
-          duration: 0.5,
+          duration: 0.4,
           ease: "power2.inOut",
         },
-        "<+=0.2",
+        "<+=0.05", // Start almost immediately after dedication starts fading
       )
+
+      // Keep "بس اصلي" visible during this transition (no fade out)
+      // It will fade later with the unified entity shrink
 
       // 5.3: Shrink THE UNIFIED ENTITY - DO NOT MODIFY FROM HERE
       tl.to(
