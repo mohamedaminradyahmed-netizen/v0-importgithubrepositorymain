@@ -46,9 +46,9 @@ export const HeroAnimation = () => {
            ========================================= */}
 
         {/* Main Title Wrapper */}
-        <<div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
-                <div className="text-content-wrapper flex flex-col items-center justify-center w-auto z-30 -ml-0.5">
-                  <h1 className="text-main text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-tight text-center">
+        <div className="text-layer-container absolute top-0 left-0 w-full h-full z-[55] m-0 p-0 pointer-events-none">
+          <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
+            <div className="text-content-wrapper flex flex-col items-center justify-center w-auto -ml-0.5 opacity-0">
               {/* Bas Asli */}
               <h1
                 className="text-main font-black tracking-tight leading-[0.9] text-center"
