@@ -43,15 +43,20 @@ export const HeroAnimation = () => {
 
         {/* Main Title & Subtitle Wrapper */}
         <div className="text-layer-container absolute inset-0 z-[55] flex flex-col items-center justify-center pointer-events-none">
-          <div className="text-content-wrapper hero-title-stack opacity-0">
-            {/* Bas Asli */}
-            <h1 className="hero-main-title text-main font-black tracking-tight leading-[0.9] text-center">
-              بس اصلي
-            </h1>
-            {/* Dedication */}
-            <p className="hero-dedication">
-              اهداء ليسري نصر الله
-            </p>
+          <div className="text-content-group flex flex-col items-center justify-center">
+            <div className="main-title-wrapper opacity-0">
+              {/* Bas Asli */}
+              <h1 className="hero-main-title text-main font-black tracking-tight leading-[0.9] text-center">
+                بس اصلي
+              </h1>
+            </div>
+
+            <div className="dedication-wrapper opacity-0 mt-2">
+              {/* Dedication */}
+              <p className="hero-dedication">
+                اهداء ليسري نصر الله
+              </p>
+            </div>
           </div>
         </div>
 
