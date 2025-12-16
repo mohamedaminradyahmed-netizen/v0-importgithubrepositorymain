@@ -21,17 +21,7 @@ export const VideoTextMask = forwardRef<HTMLDivElement, VideoTextMaskProps>(
           />
 
           <div className="video-text-mask__overlay absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white">
-            <h1
-              className="text-center m-0 p-0 leading-none"
-              style={{
-                fontSize: "clamp(8rem, 28vw, 40rem)",
-                fontWeight: 900,
-                color: "black",
-                fontFamily: "'Cairo', 'Noto Kufi Arabic', 'system-ui', '-apple-system', 'Segoe UI', 'Arial Black', sans-serif",
-                letterSpacing: "-0.08em",
-                fontStretch: "ultra-expanded",
-              }}
-            >
+            <h1 className="video-text-mask__title">
               {text}
             </h1>
           </div>
