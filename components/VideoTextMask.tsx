@@ -16,18 +16,11 @@ export const VideoTextMask = forwardRef<HTMLDivElement, VideoTextMaskProps>(
             loop
             muted
             playsInline
-            className="absolute top-1/2 left-1/2 w-full h-full min-w-full min-h-full object-cover -translate-x-1/2 -translate-y-1/2"
-            style={{ zIndex: 1 }}
+            className="video-text-mask__video absolute top-1/2 left-1/2 w-full h-full min-w-full min-h-full object-cover -translate-x-1/2 -translate-y-1/2"
             src={videoSrc}
           />
 
-          <div
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white"
-            style={{
-              zIndex: 2,
-              mixBlendMode: "screen",
-            }}
-          >
+          <div className="video-text-mask__overlay absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white">
             <h1
               className="text-center m-0 p-0 leading-none"
               style={{
