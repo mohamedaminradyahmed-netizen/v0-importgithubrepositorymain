@@ -64,9 +64,9 @@ export const HeroAnimation = () => {
         </div>
 
         {/* Dedication Layer - Independent to fade out first */}
-        <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-45 mr-19 md:mr-30 opacity-0">
-            <p className="text-[10px] sm:text-[14px] md:text-[16px] lg:text-[16px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+            <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
               اهداء ليسري نصر الله
             </p>
           </div>
