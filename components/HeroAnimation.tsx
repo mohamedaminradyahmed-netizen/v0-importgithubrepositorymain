@@ -45,26 +45,32 @@ export const HeroAnimation = () => {
             {/* V-Shape Container (Moved here) */}
             <div className="v-shape-container absolute top-0 left-0 w-full h-full z-40 m-0 p-0">
               <div className="v-shape-cards-layer absolute inset-0">
-                {responsiveValues.vShapePositions.map((pos, i) => (
-                  <div
-                    key={`v-card-${i}`}
-                    className="phase-3-img hero-vcard absolute origin-center"
-                    style={{
-                      width: `${responsiveValues.cardWidth}px`,
-                      height: `${responsiveValues.cardHeight}px`,
-                      zIndex: 10 - Math.abs(i - 3),
-                    }}
-                  >
-                    <div className="card-elite w-full h-full overflow-hidden relative">
-                      <ImageWithFallback
-                        src={images[i] || "/placeholder.svg"}
-                        alt={`Scene ${i}`}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
+                {responsiveValues.vShapePositions.map((pos, i) => {
+                  const centerIndex = Math.floor(responsiveValues.vShapePositions.length / 2)
+                  const distanceFromCenter = Math.abs(i - centerIndex)
+                  const zIndex = 10 - distanceFromCenter
+
+                  return (
+                    <div
+                      key={`v-card-${i}`}
+                      className="phase-3-img hero-vcard absolute origin-center"
+                      style={{
+                        width: `${responsiveValues.cardWidth}px`,
+                        height: `${responsiveValues.cardHeight}px`,
+                        zIndex,
+                      }}
+                    >
+                      <div className="card-elite w-full h-full overflow-hidden relative">
+                        <ImageWithFallback
+                          src={images[i] || "/placeholder.svg"}
+                          alt={`Scene ${i}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
 
               <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
