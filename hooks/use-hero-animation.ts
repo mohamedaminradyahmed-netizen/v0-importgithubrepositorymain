@@ -13,7 +13,6 @@ export const useHeroAnimation = (
 ) => {
   const [responsiveValues, setResponsiveValues] = useState<ResponsiveConfig | null>(null)
 
-  // Fixed baseline constants for symmetric spacing
   const HEADER_H = 96
   const SAFE_BOTTOM = 80
   const SAFE_TOP = HEADER_H + 24
@@ -43,16 +42,17 @@ export const useHeroAnimation = (
         },
       })
 
-      // Phase 1: Reveal Video + Show Header
+      // Phase 1: Exit Video Mask
       tl.to(".video-mask-wrapper", {
-        scale: 5,
-        y: -600,
+        scale: 1.5,
+        y: -800,
         opacity: 0,
         duration: 3,
         ease: "power2.inOut",
         pointerEvents: "none",
       })
 
+      // Show Header
       tl.to(
         ".fixed-header",
         {
@@ -63,12 +63,13 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
+      // Phase 2: Show Main Text "بس اصلي"
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
         {
           opacity: 1,
-          y: -240,
+          y: 0,
           scale: 1,
           duration: 2,
           ease: "power2.out",
@@ -77,75 +78,22 @@ export const useHeroAnimation = (
         "-=1.5",
       )
 
-      tl.set(
-        ".phase-5-wrapper",
-        {
-          y: -240,
-          scale: 1,
-        },
-        "<",
-      )
-
-      tl.to(
-        ".text-content-wrapper",
-        {
-          y: -240,
-          duration: 1,
-          ease: "none",
-        },
-        0.5,
-      )
-
-      // Phase 3: Card Animation Setup
-      const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
-      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1280
-      const isMobile = window.innerWidth < 768
-      const compressionFactor = isTablet || isMobile ? 0.92 : 1
-
-      phase3Images.forEach((img, i) => {
-        const staggerDelay = i * 0.15
-        const randomX = (i % 2 === 0 ? -1 : 1) * (Math.random() * 30 + 10)
-        const randomAngle = (Math.random() - 0.5) * 20
-
+      // Phase 3: Animate Collage Cards In
+      const collageCards = gsap.utils.toArray(".collage-card") as HTMLElement[]
+      collageCards.forEach((card, i) => {
+        const staggerDelay = i * 0.1
         tl.fromTo(
-          img,
-          { y: "120vh", rotation: randomAngle, opacity: 0, xPercent: randomX },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-          1.2 + staggerDelay,
+          card,
+          { opacity: 0, scale: 0.3, y: 100 },
+          { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "back.out" },
+          2 + staggerDelay,
         )
       })
 
-      tl.to(
-        ".phase-3-img",
-        {
-          top: (i) => {
-            if (i < responsiveValues.vShapePositions.length) {
-              const topVal = responsiveValues.vShapePositions[i]?.top || "50%"
-              if (typeof topVal === "string" && topVal.endsWith("px")) {
-                const pxValue = parseInt(topVal, 10)
-                const compressed = SAFE_TOP + (pxValue - SAFE_TOP) * compressionFactor
-                return `${Math.round(compressed)}px`
-              }
-              return topVal
-            }
-            return "100vh"
-          },
-          left: (i) => {
-            if (i < responsiveValues.vShapePositions.length) return responsiveValues.vShapePositions[i]?.left || "50%"
-            return "50%"
-          },
-          xPercent: -50,
-          yPercent: -50,
-          rotation: (i) => (i < responsiveValues.vShapePositions.length ? responsiveValues.vShapePositions[i]?.rotation || 0 : 0),
-          scale: responsiveValues.scale,
-          opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
-          duration: 1.8,
-          ease: "power3.inOut",
-        },
-        2,
-      )
+      // Phase 4: Hold position
+      tl.to({}, { duration: 2 })
 
-      // Phase 5: Hide Title & Show Secondary Text
+      // Phase 5: Hide Main Text & Show Secondary "النسخة"
       tl.to(
         ".text-content-wrapper",
         {
@@ -166,27 +114,15 @@ export const useHeroAnimation = (
         "<+=0.2",
       )
 
-      // 5.3: Shrink THE UNIFIED ENTITY - DO NOT MODIFY FROM HERE
+      // Phase 6: Shrink Collage
       tl.to(
-        ".unified-entity",
+        ".collage-wrapper",
         {
           scale: 0.5,
           duration: 4,
           ease: "power3.inOut",
         },
         "+=0.5",
-      )
-
-      tl.to(
-        ".v-shape-container",
-        {
-          borderRadius: "2rem",
-          border: "1px solid rgba(255,255,255,0.2)",
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
-          duration: 4,
-          ease: "power3.inOut",
-        },
-        "<",
       )
 
       tl.to(
@@ -199,6 +135,7 @@ export const useHeroAnimation = (
         "<",
       )
 
+      // Phase 7: Fade out and reset text
       tl.to(
         [".text-content-wrapper", ".phase-5-wrapper"],
         {
@@ -224,16 +161,6 @@ export const useHeroAnimation = (
         duration: 0.5,
         ease: "power2.inOut",
       })
-
-      tl.to(
-        ".scene-container",
-        {
-          y: -150,
-          duration: 3,
-          ease: "power2.inOut",
-        },
-        "+=0.8",
-      )
 
       tl.to({}, { duration: 2 })
     }, containerRef)
