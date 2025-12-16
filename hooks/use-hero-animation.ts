@@ -214,8 +214,8 @@ export const useHeroAnimation = (
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
         if (mainTitle && secondaryText) {
-          mainTitle.textContent = "النسخة"
-          secondaryText.textContent = "بس اصلي"
+          mainTitle.textContent = "بس اصلي"
+          secondaryText.textContent = "النسخة"
         }
       })
 
