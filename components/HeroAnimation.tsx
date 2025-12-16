@@ -51,7 +51,7 @@ export const HeroAnimation = () => {
               </h1>
             </div>
 
-            <div className="dedication-wrapper opacity-0 mt-55">
+            <div className="dedication-wrapper dedication-fixed opacity-0">
               {/* Dedication */}
               <p className="hero-dedication">
                 اهداء ليسري نصر الله
