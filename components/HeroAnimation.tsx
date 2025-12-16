@@ -17,8 +17,12 @@ export const HeroAnimation = () => {
   return (
     <div
       ref={containerRef}
-      className="hero-animation-root bg-black text-white relative overflow-hidden"
+      className="bg-black text-white relative overflow-hidden"
       dir="rtl"
+      style={{
+        minHeight: "100vh",
+        background: "radial-gradient(ellipse at 50% 30%, rgba(20,20,25,1) 0%, rgba(0,0,0,1) 70%)",
+      }}
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
       <div className="fixed top-0 left-0 right-0 z-[9999] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
@@ -41,22 +45,30 @@ export const HeroAnimation = () => {
             LAYER 2: TEXT BLOCK (Bas Asli + Dedication)
            ========================================= */}
 
-        {/* Main Title & Subtitle Wrapper */}
-        <div className="text-layer-container absolute inset-0 z-[55] flex flex-col items-center justify-center pointer-events-none">
-          <div className="text-content-group flex flex-col items-center justify-center">
-            <div className="main-title-wrapper opacity-0">
+        {/* Main Title Wrapper */}
+        <div className="text-layer-container absolute top-0 left-0 w-full h-full z-[55] m-0 p-0 pointer-events-none">
+          <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
+            <div className="text-content-wrapper flex flex-col items-center justify-center w-auto -ml-0.5 opacity-0">
               {/* Bas Asli */}
-              <h1 className="hero-main-title text-main font-black tracking-tight leading-[0.9] text-center">
+              <h1
+                className="text-main font-black tracking-tight leading-[0.9] text-center"
+                style={{
+                  fontSize: "clamp(2.8rem, 7vw, 6rem)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 بس اصلي
               </h1>
             </div>
+          </div>
+        </div>
 
-            <div className="dedication-wrapper dedication-fixed opacity-0">
-              {/* Dedication */}
-              <p className="hero-dedication">
-                اهداء ليسري نصر الله
-              </p>
-            </div>
+        {/* Dedication Layer - Independent to fade out first */}
+        <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
+            <p className="text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+              اهداء ليسري نصر الله
+            </p>
           </div>
         </div>
 

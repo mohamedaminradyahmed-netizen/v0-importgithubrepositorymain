@@ -63,9 +63,9 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
-      // Animate title and dedication separately
+      // Phase 2: Title + Dedication (separate DOM, independent fades)
       tl.fromTo(
-        ".main-title-wrapper",
+        ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
         {
           opacity: 1,
@@ -80,16 +80,16 @@ export const useHeroAnimation = (
 
       tl.fromTo(
         ".dedication-wrapper",
-        { opacity: 0, y: 320, scale: 0.95 },
+        { opacity: 0, y: 300, scale: 0.95 },
         {
           opacity: 1,
-          y: -200,
+          y: -240,
           scale: 1,
           duration: 2,
           ease: "power2.out",
           zIndex: 29,
         },
-        "-=1.4",
+        "-=1.45",
       )
 
       tl.set(
@@ -102,7 +102,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".main-title-wrapper", ".dedication-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper"],
         {
           y: -240,
           duration: 1,
@@ -161,14 +161,26 @@ export const useHeroAnimation = (
       )
 
       // Phase 5: Hide Title & Show Secondary Text
+      // Dedication fades first
       tl.to(
-        [".main-title-wrapper", ".dedication-wrapper"],
+        ".dedication-wrapper",
+        {
+          opacity: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+        },
+        "+=0.4",
+      )
+
+      // Title fades after dedication
+      tl.to(
+        ".text-content-wrapper",
         {
           opacity: 0,
           duration: 0.5,
           ease: "power2.inOut",
         },
-        "+=0.5",
+        "<+=0.15",
       )
 
       tl.to(
@@ -205,7 +217,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".main-title-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           scale: 0.5,
           duration: 4,
@@ -215,7 +227,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".main-title-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           opacity: 0,
           duration: 0.5,
@@ -225,7 +237,7 @@ export const useHeroAnimation = (
       )
 
       tl.call(() => {
-        const mainTitle = document.querySelector(".main-title-wrapper h1")
+        const mainTitle = document.querySelector(".text-content-wrapper h1")
         const dedication = document.querySelector(".dedication-wrapper p")
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
@@ -236,7 +248,7 @@ export const useHeroAnimation = (
         }
       })
 
-      tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
+      tl.to([".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"], {
         opacity: 1,
         duration: 0.5,
         ease: "power2.inOut",
