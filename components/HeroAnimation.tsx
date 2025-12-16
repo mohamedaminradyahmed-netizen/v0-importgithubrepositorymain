@@ -17,12 +17,8 @@ export const HeroAnimation = () => {
   return (
     <div
       ref={containerRef}
-      className="bg-black text-white relative overflow-hidden"
+      className="hero-animation-root bg-black text-white relative overflow-hidden"
       dir="rtl"
-      style={{
-        minHeight: "100vh",
-        background: "radial-gradient(ellipse at 50% 30%, rgba(20,20,25,1) 0%, rgba(0,0,0,1) 70%)",
-      }}
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
       <div className="fixed top-0 left-0 right-0 z-[9999] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
@@ -42,75 +38,59 @@ export const HeroAnimation = () => {
         </div>
 
         {/* =========================================
-            LAYER 2: TEXT BLOCK (Bas Asli + Dedication)
-           ========================================= */}
-
-        {/* Main Title Wrapper */}
-        <div className="text-layer-container absolute top-0 left-0 w-full h-full z-[55] m-0 p-0 pointer-events-none">
-          <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
-            <div className="text-content-wrapper flex flex-col items-center justify-center w-auto -ml-0.5 opacity-0">
-              {/* Bas Asli */}
-              <h1
-                className="text-main font-black tracking-tight leading-[0.9] text-center"
-                style={{
-                  fontSize: "clamp(2.8rem, 7vw, 6rem)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                بس اصلي
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        {/* Dedication Layer - Independent to fade out first */}
-            <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-20 opacity-0">
-            <p className="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
-              اهداء ليسري نصر الله
-            </p>
-          </div>
-        </div>
-
-        {/* =========================================
-            LAYER 3: THE V-SHAPE CONTAINER
+            LAYER 2–4: TEXT + V-SHAPE CONTAINER (Unified)
            ========================================= */}
         <div className="scene-container fixed inset-0 z-[40] flex items-center justify-center pointer-events-none">
-          {/* UNIFIED ENTITY WRAPPER - All elements scale together as ONE */}
           <div className="unified-entity relative w-full h-full flex items-center justify-center">
-            <div className="v-shape-container relative bg-transparent overflow-visible flex items-center justify-center w-screen h-screen">
-              {/* The V-Shape Cards */}
-              {responsiveValues.vShapePositions.map((pos, i) => (
-                <div
-                  key={`v-card-${i}`}
-                  className="phase-3-img hero-vcard absolute origin-center"
-                  style={{
-                    width: `${responsiveValues.cardWidth}px`,
-                    height: `${responsiveValues.cardHeight}px`,
-                    zIndex: 40 - Math.abs(i - 3),
-                  }}
-                >
-                  <div className="card-elite w-full h-full overflow-hidden relative">
-                    <ImageWithFallback
-                      src={images[i] || "/placeholder.svg"}
-                      alt={`Scene ${i}`}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
+            {/* V-Shape Container (Moved here) */}
+            <div className="v-shape-container absolute top-0 left-0 w-full h-full z-40 m-0 p-0">
+              <div className="v-shape-cards-layer absolute inset-0">
+                {responsiveValues.vShapePositions.map((pos, i) => (
+                  <div
+                    key={`v-card-${i}`}
+                    className="phase-3-img hero-vcard absolute origin-center"
+                    style={{
+                      width: `${responsiveValues.cardWidth}px`,
+                      height: `${responsiveValues.cardHeight}px`,
+                      zIndex: 10 - Math.abs(i - 3),
+                    }}
+                  >
+                    <div className="card-elite w-full h-full overflow-hidden relative">
+                      <ImageWithFallback
+                        src={images[i] || "/placeholder.svg"}
+                        alt={`Scene ${i}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
+                <div className="text-content-wrapper flex flex-col items-center justify-center w-auto z-30 -ml-0.5 opacity-0">
+                  <h1 className="text-main text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-tight text-center">
+                    بس اصلي
+                  </h1>
+                </div>
+
+                <div className="dedication-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+                  <div className="dedication-wrapper flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                    <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+                      اهداء ليسري نصر الله
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
-        {/* =========================================
-            LAYER 4: SECONDARY TEXT "النسخة"
-            (Appears AFTER dedication fades - SAME position & size)
-           ========================================= */}
-        <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-          <div className="phase-5-wrapper hero-title-stack opacity-0">
-            <p className="hero-secondary-label">النسخة</p>
+                <div className="phase-5-layer absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+                  <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                    <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium text-white/60 text-center font-sans tracking-[0.2em]">
+                      النسخة
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

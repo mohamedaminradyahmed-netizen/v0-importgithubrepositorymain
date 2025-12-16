@@ -63,7 +63,7 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
-      // Phase 2: Title + Dedication (separate DOM, independent fades)
+      // Phase 2: Title + Dedication
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -161,7 +161,6 @@ export const useHeroAnimation = (
       )
 
       // Phase 5: Hide Title & Show Secondary Text
-      // Dedication fades first
       tl.to(
         ".dedication-wrapper",
         {
@@ -172,7 +171,6 @@ export const useHeroAnimation = (
         "+=0.4",
       )
 
-      // Title fades after dedication
       tl.to(
         ".text-content-wrapper",
         {
@@ -241,7 +239,7 @@ export const useHeroAnimation = (
         const dedication = document.querySelector(".dedication-wrapper p")
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
-        if (mainTitle && secondaryText && dedication) {
+        if (mainTitle && dedication && secondaryText) {
           mainTitle.textContent = "بس اصلي"
           dedication.textContent = "اهداء ليسري نصر الله"
           secondaryText.textContent = "النسخة"
