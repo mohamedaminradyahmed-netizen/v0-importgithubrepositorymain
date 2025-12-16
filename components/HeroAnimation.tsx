@@ -83,7 +83,7 @@ export const HeroAnimation = () => {
                 </div>
 
                 <div className="phase-5-layer absolute inset-0 z-[100] flex flex-col items-center justify-center pointer-events-none">
-                  <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto -ml-[30px] pt-32 md:pt-48">
+                  <div className="phase-5-wrapper opacity-0 flex flex-col items-center justify-center w-auto pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
                     <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-white/80 text-center">
                       النسخة
                     </p>
