@@ -1,19 +1,16 @@
-export interface ResponsiveConfig {
-  cardWidth: number
-  cardHeight: number
-  vShapePositions: Array<{ top: string; left: string; rotation: number }>
-  scale: number
-  surroundingGroups: {
-    group1: Array<{ top: string; left: string; width: string; height: string }>
-    group2: Array<{ top: string; left: string; width: string; height: string }>
-    group3: Array<{ top: string; left: string; width: string; height: string }>
-  }
+export interface CardPosition {
+  top: string
+  left: string
+  rotation: number
+  width: number
+  height: number
 }
 
-const HEADER_H = 96 // matches h-24
-const TOP_SAFE = HEADER_H + 24
-const SAFE_BOTTOM = 80 // fixed bottom baseline
-const BOTTOM_GAP = SAFE_BOTTOM + 50
+export interface ResponsiveConfig {
+  collagePositions: CardPosition[]
+}
+
+const HEADER_H = 96
 
 class HeroConfiguration {
   private static instance: HeroConfiguration
@@ -27,88 +24,60 @@ class HeroConfiguration {
   }
 
   public getResponsiveValues(width: number, height = 900): ResponsiveConfig {
-    const isTablet = width >= 768 && width < 1280
     const isDesktop = width >= 1280
-    const isMobile = width < 768
 
-    let cardWidth: number
-    let cardHeight: number
-    let scale: number
-    let positions: Array<{ x: string; level: number; rotation: number }>
+    // Cinema-style organized collage layout (symmetrical around center)
+    // Positions are based on 9-card layout with center emphasis
+    const collagePositions: CardPosition[] = isDesktop
+      ? [
+          // Left side - upper
+          { top: "12%", left: "5%", rotation: -5, width: 160, height: 220 },
+          // Left side - middle grid (smaller cards)
+          { top: "28%", left: "8%", rotation: 3, width: 100, height: 140 },
+          { top: "28%", left: "14%", rotation: -2, width: 100, height: 140 },
+          { top: "35%", left: "8%", rotation: 2, width: 100, height: 140 },
+          { top: "35%", left: "14%", rotation: -4, width: 100, height: 140 },
 
-    if (isDesktop) {
-      // Desktop: 7 cards, tight V formation
-      cardWidth = 190
-      cardHeight = 275
-      scale = 0.82
-      positions = [
-        { x: "76%", level: 0, rotation: -10 }, // Far Left
-        { x: "66%", level: 1, rotation: -7 },  // Scene 2 Left
-        { x: "57%", level: 2, rotation: -4 },  // Near Left
-        { x: "50%", level: 3, rotation: 0 },   // Center
-        { x: "43%", level: 2, rotation: 4 },   // Near Right
-        { x: "34%", level: 1, rotation: 7 },   // Scene 2 Right
-        { x: "24%", level: 0, rotation: 10 },  // Far Right
-      ]
-    } else if (isTablet) {
-      // Tablet: 5 cards (hide 2 outer)
-      cardWidth = 160
-      cardHeight = 235
-      scale = 0.78
-      positions = [
-        { x: "66%", level: 1, rotation: -7 },  // Scene 2 Left
-        { x: "57%", level: 2, rotation: -4 },  // Near Left
-        { x: "50%", level: 3, rotation: 0 },   // Center
-        { x: "43%", level: 2, rotation: 4 },   // Near Right
-        { x: "34%", level: 1, rotation: 7 },   // Scene 2 Right
-      ]
-    } else {
-      // Mobile: 3-4 cards (center-weighted, shallow V)
-      cardWidth = 100
-      cardHeight = 150
-      scale = 0.74
-      positions = [
-        { x: "65%", level: 1, rotation: -6 },  // Left
-        { x: "50%", level: 2, rotation: 0 },   // Center
-        { x: "35%", level: 1, rotation: 6 },   // Right
-      ]
-    }
+          // Center top
+          { top: "15%", left: "40%", rotation: 2, width: 140, height: 190 },
+          // Center - yellow popcorn card
+          { top: "38%", left: "38%", rotation: -3, width: 130, height: 180 },
+          // Center bottom
+          { top: "62%", left: "40%", rotation: 1, width: 140, height: 190 },
 
-    // Compute vertical positions using fixed baseline
-    const levelHeights = [20, 40, 60, 75]
-    const yPositions = levelHeights.map((level) => TOP_SAFE + (level / 100) * (height - TOP_SAFE - BOTTOM_GAP))
+          // Right side - upper
+          { top: "12%", left: "75%", rotation: 4, width: 160, height: 220 },
+          // Right side - cinema/nature card
+          { top: "28%", left: "70%", rotation: -3, width: 110, height: 160 },
+          // Right side - pink cinema
+          { top: "35%", left: "76%", rotation: 2, width: 110, height: 160 },
+        ]
+      : width >= 768
+        ? [
+            // Tablet layout - reduced to 7 cards
+            { top: "15%", left: "8%", rotation: -4, width: 120, height: 170 },
+            { top: "30%", left: "12%", rotation: 2, width: 80, height: 110 },
 
-    const vShapePositions = positions.map((pos, i) => ({
-      top: `${Math.round(yPositions[pos.level])}px`,
-      left: pos.x,
-      rotation: pos.rotation,
-    }))
+            { top: "18%", left: "38%", rotation: 1, width: 110, height: 150 },
+            { top: "40%", left: "35%", rotation: -2, width: 100, height: 140 },
+            { top: "62%", left: "38%", rotation: 0, width: 110, height: 150 },
+
+            { top: "15%", left: "72%", rotation: 3, width: 120, height: 170 },
+            { top: "30%", left: "68%", rotation: -1, width: 80, height: 110 },
+          ]
+        : [
+            // Mobile layout - 5 cards stacked
+            { top: "15%", left: "10%", rotation: -3, width: 100, height: 140 },
+            { top: "30%", left: "25%", rotation: 2, width: 90, height: 125 },
+
+            { top: "20%", left: "40%", rotation: 0, width: 95, height: 135 },
+            { top: "45%", left: "32%", rotation: -2, width: 85, height: 120 },
+
+            { top: "15%", left: "70%", rotation: 2, width: 100, height: 140 },
+          ]
 
     return {
-      cardWidth,
-      cardHeight,
-      scale,
-      vShapePositions,
-      surroundingGroups: {
-        group1: [
-          { top: "5%", left: "5%", width: "18%", height: "25%" },
-          { top: "5%", left: "77%", width: "18%", height: "25%" },
-          { top: "15%", left: "28%", width: "12%", height: "18%" },
-          { top: "15%", left: "60%", width: "12%", height: "18%" },
-        ],
-        group2: [
-          { top: "40%", left: "2%", width: "16%", height: "22%" },
-          { top: "40%", left: "82%", width: "16%", height: "22%" },
-          { top: "35%", left: "22%", width: "10%", height: "14%" },
-          { top: "35%", left: "68%", width: "10%", height: "14%" },
-        ],
-        group3: [
-          { top: "75%", left: "5%", width: "20%", height: "20%" },
-          { top: "75%", left: "75%", width: "20%", height: "20%" },
-          { top: "80%", left: "30%", width: "15%", height: "15%" },
-          { top: "80%", left: "55%", width: "15%", height: "15%" },
-        ],
-      },
+      collagePositions,
     }
   }
 }
