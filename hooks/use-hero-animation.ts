@@ -63,7 +63,7 @@ export const useHeroAnimation = (
         "-=2.5",
       )
 
-      // Phase 2: Title
+      // Phase 2: Title + Dedication
       tl.fromTo(
         ".text-content-wrapper",
         { opacity: 0, y: 300, scale: 0.9 },
@@ -78,6 +78,20 @@ export const useHeroAnimation = (
         "-=1.5",
       )
 
+      tl.fromTo(
+        ".dedication-wrapper",
+        { opacity: 0, y: 300, scale: 0.95 },
+        {
+          opacity: 1,
+          y: -240,
+          scale: 1,
+          duration: 2,
+          ease: "power2.out",
+          zIndex: 29,
+        },
+        "-=1.45",
+      )
+
       tl.set(
         ".phase-5-wrapper",
         {
@@ -88,7 +102,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        ".text-content-wrapper",
+        [".text-content-wrapper", ".dedication-wrapper"],
         {
           y: -240,
           duration: 1,
@@ -148,13 +162,23 @@ export const useHeroAnimation = (
 
       // Phase 5: Hide Title & Show Secondary Text
       tl.to(
+        ".dedication-wrapper",
+        {
+          opacity: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+        },
+        "+=0.4",
+      )
+
+      tl.to(
         ".text-content-wrapper",
         {
           opacity: 0,
           duration: 0.5,
           ease: "power2.inOut",
         },
-        "+=0.4",
+        "<+=0.15",
       )
 
       tl.to(
@@ -191,7 +215,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".text-content-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           scale: 0.5,
           duration: 4,
@@ -201,7 +225,7 @@ export const useHeroAnimation = (
       )
 
       tl.to(
-        [".text-content-wrapper", ".phase-5-wrapper"],
+        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
         {
           opacity: 0,
           duration: 0.5,
@@ -212,15 +236,17 @@ export const useHeroAnimation = (
 
       tl.call(() => {
         const mainTitle = document.querySelector(".text-content-wrapper h1")
+        const dedication = document.querySelector(".dedication-wrapper p")
         const secondaryText = document.querySelector(".phase-5-wrapper p")
 
-        if (mainTitle && secondaryText) {
+        if (mainTitle && dedication && secondaryText) {
           mainTitle.textContent = "بس اصلي"
+          dedication.textContent = "اهداء ليسري نصر الله"
           secondaryText.textContent = "النسخة"
         }
       })
 
-      tl.to([".text-content-wrapper", ".phase-5-wrapper"], {
+      tl.to([".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"], {
         opacity: 1,
         duration: 0.5,
         ease: "power2.inOut",
