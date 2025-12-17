@@ -37,40 +37,40 @@ class HeroConfiguration {
     let positions: Array<{ left: string; top: string; rotation: number }>
 
     if (isDesktop) {
-      // Desktop: 7 cards in V-shape valley (center lowest, outer highest)
+      // Desktop: 7 cards - تكتل مضغوط مع دوران بسيط
       cardWidth = 190
       cardHeight = 275
       scale = 0.82
       positions = [
-        { left: "26%", top: "30%", rotation: 0 }, // Left cluster (back)
-        { left: "32%", top: "36%", rotation: 0 }, // Left cluster (mid)
-        { left: "40%", top: "46%", rotation: 0 }, // Left cluster (front)
-        { left: "50%", top: "54%", rotation: 0 }, // Center (front - lowest)
-        { left: "58%", top: "54%", rotation: 0 }, // Center (front - lowest)
-        { left: "66%", top: "40%", rotation: 0 }, // Right cluster (mid)
-        { left: "72%", top: "32%", rotation: 0 }, // Right cluster (back)
+        { left: "30%", top: "28%", rotation: -6 }, // back-left
+        { left: "36%", top: "34%", rotation: -3 }, // left
+        { left: "43%", top: "45%", rotation: -1 }, // inner-left
+        { left: "50%", top: "56%", rotation: 0 },  // center/front (lowest)
+        { left: "57%", top: "45%", rotation: 1 },  // inner-right
+        { left: "64%", top: "34%", rotation: 3 },  // right
+        { left: "70%", top: "28%", rotation: 6 },  // back-right
       ]
     } else if (isTablet) {
-      // Tablet: 5 cards in V-shape
+      // Tablet: 5 cards - تكتل مضغوط
       cardWidth = 160
       cardHeight = 235
       scale = 0.78
       positions = [
-        { left: "30%", top: "34%", rotation: 0 }, // Left (back)
-        { left: "40%", top: "46%", rotation: 0 }, // Left (front)
-        { left: "50%", top: "56%", rotation: 0 }, // Center (front - lowest)
-        { left: "60%", top: "46%", rotation: 0 }, // Right (front)
-        { left: "70%", top: "34%", rotation: 0 }, // Right (back)
+        { left: "34%", top: "34%", rotation: -5 },
+        { left: "42%", top: "44%", rotation: -2 },
+        { left: "50%", top: "56%", rotation: 0 },
+        { left: "58%", top: "44%", rotation: 2 },
+        { left: "66%", top: "34%", rotation: 5 },
       ]
     } else {
-      // Mobile: 3 cards in V-shape
+      // Mobile: 3 cards - تكتل مضغوط
       cardWidth = 100
       cardHeight = 150
       scale = 0.74
       positions = [
-        { left: "38%", top: "44%", rotation: 0 }, // Left (back)
-        { left: "50%", top: "56%", rotation: 0 }, // Center (front - lowest)
-        { left: "62%", top: "44%", rotation: 0 }, // Right (back)
+        { left: "42%", top: "42%", rotation: -4 },
+        { left: "50%", top: "56%", rotation: 0 },
+        { left: "58%", top: "42%", rotation: 4 },
       ]
     }
 

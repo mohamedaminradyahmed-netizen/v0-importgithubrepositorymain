@@ -31,9 +31,17 @@ export const Navbar = () => {
         "bg-black/80 backdrop-blur-md shadow-lg py-4 border-b border-white/10",
       )}
       dir="rtl"
+      role="navigation"
+      aria-label="شريط التنقل الرئيسي"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button 
+          className="md:hidden text-white" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
+        >
           {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
 
@@ -52,16 +60,33 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4 text-white">
-          <Button variant="ghost" size="icon" className="hover:bg-white/20">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="hover:bg-white/20"
+            aria-label="البحث"
+          >
             <Search className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-white/20">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="hover:bg-white/20"
+            aria-label="الملف الشخصي"
+          >
             <User className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-primary-foreground/20 relative">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="hover:bg-primary-foreground/20 relative"
+            aria-label="سلة التسوق"
+          >
             <ShoppingBag className="w-5 h-5" />
-            {/* Updated code */}
-            <span className="absolute top-0 right-0 w-2 h-2 bg-destructive rounded-full" />
+            <span 
+              className="absolute top-0 right-0 w-2 h-2 bg-destructive rounded-full" 
+              aria-hidden="true"
+            />
           </Button>
         </div>
       </div>

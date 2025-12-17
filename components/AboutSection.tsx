@@ -34,8 +34,8 @@ export const AboutSection = () => {
           <div className="order-1 md:order-2 relative">
             <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1659533770974-a2a69e471385?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxza2luY2FyZSUyMGJlYXV0eSUyMHdvbWFufGVufDF8fHx8MTc2NTc2NjgxMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="About Onsko"
+                src="/placeholder.jpg"
+                alt="عن النسخة - رحلة الجمال والأناقة"
                 className="w-full h-full object-cover"
               />
             </div>

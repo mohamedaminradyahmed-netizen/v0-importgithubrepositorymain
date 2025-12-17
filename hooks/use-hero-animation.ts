@@ -31,19 +31,21 @@ export const useHeroAnimation = (
     if (!responsiveValues || !containerRef.current || !triggerRef.current) return
 
     const ctx = gsap.context(() => {
+      // تحسين الأداء: تقليل المسافة وتحسين scrub للسلاسة
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerRef.current,
           start: "top top",
-          end: "+=12000",
-          scrub: 2.5,
+          end: "+=8000", // تقليل من 12000 لتحسين الأداء
+          scrub: 1.2, // تحسين من 2.5 لاستجابة أسرع
           pin: true,
           anticipatePin: 1,
           id: "hero-scroll",
+          invalidateOnRefresh: true, // تحسين الأداء عند تغيير الحجم
         },
       })
 
-      // Phase 1: Reveal Video + Show Header
+      // Phase 1: Reveal Video + Show Header - محسن للأداء
       tl.to(".video-mask-wrapper", {
         scale: 5,
         y: -600,
@@ -51,6 +53,8 @@ export const useHeroAnimation = (
         duration: 3,
         ease: "power2.inOut",
         pointerEvents: "none",
+        // تحسين الأداء: إضافة will-change للعناصر المتحركة
+        willChange: "transform, opacity",
       })
 
       tl.to(
@@ -113,47 +117,57 @@ export const useHeroAnimation = (
         0.5,
       )
 
-      // Phase 3: Card Animation Setup (V-Shape Valley with zero rotation)
+      // Phase 3: Card Animation Setup - محسن للأداء
       const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
 
+      // تحسين الأداء: إضافة will-change للبطاقات
+      phase3Images.forEach((img) => {
+        gsap.set(img, { willChange: "transform, opacity" })
+      })
+
       phase3Images.forEach((img, i) => {
-        const staggerDelay = i * 0.15
+        const staggerDelay = i * 0.12 // تقليل التأخير لسرعة أكبر
 
         tl.fromTo(
           img,
           { y: "120vh", rotation: 0, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-          2.7 + staggerDelay, // تم التعديل من 1.2 إلى 2.7
+          { 
+            y: 0, 
+            opacity: 1, 
+            duration: 0.7, // تقليل المدة لسرعة أكبر
+            ease: "power2.out",
+            force3D: true, // فرض استخدام GPU acceleration
+          },
+          2.5 + staggerDelay, // تحسين التوقيت
         )
       })
 
       tl.to(
         ".phase-3-img",
         {
-          top: (i) => {
-            if (i < responsiveValues.vShapePositions.length) {
-              return responsiveValues.vShapePositions[i]?.top || "50%"
-            }
-            return "100vh"
-          },
-          left: (i) => {
-            if (i < responsiveValues.vShapePositions.length) return responsiveValues.vShapePositions[i]?.left || "50%"
-            return "50%"
-          },
-          rotation: 0,
+          top: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.top || "50%") : "100vh"),
+          left: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.left || "50%") : "50%"),
+          
+          // استخدام الدوران من الكونفيج بدلاً من 0
+          rotation: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.rotation || 0) : 0),
+          
           scale: responsiveValues.scale,
           opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
-          // ضمان التراكب الصحيح عند تقارب البطاقات (البطاقات المنخفضة/الوسط تكون في المقدمة)
+          
+          // طبقات تراكب مقصودة: الأقرب للمركز + الأسفل (top أكبر) يكون في المقدمة
           zIndex: (i) => {
-            if (i >= responsiveValues.vShapePositions.length) return 0
-            const top = responsiveValues.vShapePositions[i]?.top ?? "0%"
-            const n = Number.parseFloat(top)
-            return Number.isFinite(n) ? 10 + Math.round(n) : 10
+            const pos = responsiveValues.vShapePositions[i]
+            if (!pos) return 0
+            const l = Number.parseFloat(String(pos.left).replace("%", ""))
+            const t = Number.parseFloat(String(pos.top).replace("%", ""))
+            const dist = Math.abs(l - 50) // قربه من المنتصف
+            return Math.round((100 - dist) * 10 + t) // قيمة كبيرة = أمام
           },
+          
           duration: 3.3,
           ease: "power3.inOut",
         },
-        3.5, // تم التعديل من 2 إلى 3.5
+        3.5,
       )
 
       // Phase 5: CRITICAL FIX - Direct transition from dedication to النسخة
@@ -182,17 +196,56 @@ export const useHeroAnimation = (
       // Keep "بس اصلي" visible during this transition (no fade out)
       // It will fade later with the unified entity shrink
 
-      // 5.3: Shrink THE UNIFIED ENTITY - DO NOT MODIFY FROM HERE
+      // ===== المرحلة 7: Grid 4x4 Zoom Out Effect =====
+      
+      // 7.1: إخفاء الهيدر مع بداية التحول
       tl.to(
-        ".unified-entity",
+        ".fixed-header",
         {
-          scale: 0.5,
-          duration: 4,
-          ease: "power3.inOut",
+          opacity: 0,
+          duration: 1.0,
+          ease: "power2.inOut",
         },
         "+=0.5",
       )
 
+      // 7.2: Zoom Out - تقليص أكبر للحاوية لتناسب مساحة Grid المركزية
+      tl.to(
+        ".frozen-container",
+        {
+          scale: 0.48, // تقليص أكبر ليناسب مساحة 2×2 في Grid 4×4
+          duration: 2.5,
+          ease: "power4.out",
+          transformOrigin: "center center",
+        },
+        "<", // متزامن مع إخفاء الهيدر
+      )
+
+      // 7.3: إظهار Grid 4x4 Layout
+      tl.to(
+        ".portfolio-grid-4x4",
+        {
+          opacity: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        "-=2.0", // يبدأ قبل انتهاء التقليص
+      )
+
+      // 7.4: إظهار 12 Portfolio Items المحيطة (تدريجياً)
+      tl.to(
+        ".portfolio-item-container",
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.8,
+          ease: "power4.out",
+          stagger: 0.08, // تأخير بين كل عنصر
+        },
+        "-=1.2",
+      )
+
+      // إضافة الإطار والظلال للحاوية الداخلية
       tl.to(
         ".v-shape-container",
         {
@@ -202,63 +255,84 @@ export const useHeroAnimation = (
           duration: 4,
           ease: "power3.inOut",
         },
-        "<",
+        "<", // متزامن مع التقليص
       )
 
+      // 7.6: تبديل النصوص بتسلسل متدرج
+      
+      // الخطوة 1: إخفاء "النسخة" السفلى أولاً
       tl.to(
-        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
-        {
-          scale: 0.5,
-          duration: 4,
-          ease: "power3.inOut",
-        },
-        "<",
-      )
-
-      tl.to(
-        [".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"],
+        ".phase-5-wrapper",
         {
           opacity: 0,
-          duration: 0.5,
+          duration: 0.3,
           ease: "power2.inOut",
         },
-        "+=0.5",
+        "+=0.3", // بعد انتهاء التقليص
       )
 
-      tl.call(() => {
-        const mainTitle = document.querySelector(".text-content-wrapper h1")
-        const dedication = document.querySelector(".dedication-wrapper p")
-        const secondaryText = document.querySelector(".phase-5-wrapper p")
+      // الخطوة 2: إخفاء "بس اصلي" الكبيرة ثانياً
+      tl.to(
+        ".text-content-wrapper",
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.inOut",
+        },
+        "+=0.2", // بعد إخفاء النسخة
+      )
 
-        if (mainTitle && dedication && secondaryText) {
-          mainTitle.textContent = "بس اصلي"
-          dedication.textContent = "اهداء ليسري نصر الله"
-          secondaryText.textContent = "النسخة"
+      // الخطوة 3: تغيير محتوى النص السفلي إلى "بس اصلي"
+      tl.call(() => {
+        const secondaryText = document.querySelector(".phase-5-wrapper p")
+        if (secondaryText) {
+          secondaryText.textContent = "بس اصلي"
         }
       })
 
-      tl.to([".text-content-wrapper", ".dedication-wrapper", ".phase-5-wrapper"], {
-        opacity: 1,
-        duration: 0.5,
-        ease: "power2.inOut",
-      })
-
+      // الخطوة 4: إظهار "بس اصلي" في المكان السفلي
       tl.to(
-        ".scene-container",
+        ".phase-5-wrapper",
         {
-          y: -150,
-          duration: 3,
+          opacity: 1,
+          duration: 0.4,
           ease: "power2.inOut",
         },
-        "+=0.8",
+        "+=0.1",
       )
 
-      tl.to({}, { duration: 2 })
+      // الخطوة 5: تغيير محتوى النص الكبير إلى "النسخة"
+      tl.call(() => {
+        const mainTitle = document.querySelector(".text-content-wrapper h1")
+        if (mainTitle) {
+          mainTitle.textContent = "النسخة"
+        }
+      })
+
+      // الخطوة 6: إظهار "النسخة" في المكان الكبير
+      tl.to(
+        ".text-content-wrapper",
+        {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.inOut",
+        },
+        "+=0.2",
+      )
+
+      // انتهاء الأنيميشن مع النصوص المبدلة
     }, containerRef)
 
     return () => {
+      // تحسين تنظيف الذاكرة: إزالة will-change قبل التنظيف
+      phase3Images?.forEach((img) => {
+        gsap.set(img, { willChange: "auto" })
+      })
+      gsap.set(".video-mask-wrapper", { willChange: "auto" })
+      
       ctx.revert()
       ScrollTrigger.getById("hero-scroll")?.kill()
+      ScrollTrigger.refresh() // تحديث ScrollTrigger بعد التنظيف
     }
   }, [responsiveValues])
 
