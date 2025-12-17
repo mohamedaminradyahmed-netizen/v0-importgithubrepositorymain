@@ -30,6 +30,8 @@ export const useHeroAnimation = (
   useLayoutEffect(() => {
     if (!responsiveValues || !containerRef.current || !triggerRef.current) return
 
+    const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
+
     const ctx = gsap.context(() => {
       // تحسين الأداء: تقليل المسافة وتحسين scrub للسلاسة
       const tl = gsap.timeline({
@@ -118,7 +120,7 @@ export const useHeroAnimation = (
       )
 
       // Phase 3: Card Animation Setup - محسن للأداء
-      const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
+      // phase3Images defined in outer scope
 
       // تحسين الأداء: إضافة will-change للبطاقات
       phase3Images.forEach((img) => {
@@ -131,9 +133,9 @@ export const useHeroAnimation = (
         tl.fromTo(
           img,
           { y: "120vh", rotation: 0, opacity: 0 },
-          { 
-            y: 0, 
-            opacity: 1, 
+          {
+            y: 0,
+            opacity: 1,
             duration: 0.7, // تقليل المدة لسرعة أكبر
             ease: "power2.out",
             force3D: true, // فرض استخدام GPU acceleration
@@ -147,13 +149,13 @@ export const useHeroAnimation = (
         {
           top: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.top || "50%") : "100vh"),
           left: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.left || "50%") : "50%"),
-          
+
           // استخدام الدوران من الكونفيج بدلاً من 0
           rotation: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.rotation || 0) : 0),
-          
+
           scale: responsiveValues.scale,
           opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
-          
+
           // طبقات تراكب مقصودة: الأقرب للمركز + الأسفل (top أكبر) يكون في المقدمة
           zIndex: (i) => {
             const pos = responsiveValues.vShapePositions[i]
@@ -163,7 +165,7 @@ export const useHeroAnimation = (
             const dist = Math.abs(l - 50) // قربه من المنتصف
             return Math.round((100 - dist) * 10 + t) // قيمة كبيرة = أمام
           },
-          
+
           duration: 3.3,
           ease: "power3.inOut",
         },
@@ -197,7 +199,7 @@ export const useHeroAnimation = (
       // It will fade later with the unified entity shrink
 
       // ===== المرحلة 7: Grid 4x4 Zoom Out Effect =====
-      
+
       // 7.1: إخفاء الهيدر مع بداية التحول
       tl.to(
         ".fixed-header",
@@ -246,7 +248,7 @@ export const useHeroAnimation = (
       )
 
       // 7.4: تبديل النصوص فور انتهاء التقليص (قبل ظهور الصور)
-      
+
       // الخطوة 1: إخفاء "النسخة" السفلى أولاً
       tl.to(
         ".phase-5-wrapper",
@@ -329,7 +331,7 @@ export const useHeroAnimation = (
         gsap.set(img, { willChange: "auto" })
       })
       gsap.set(".video-mask-wrapper", { willChange: "auto" })
-      
+
       ctx.revert()
       ScrollTrigger.getById("hero-scroll")?.kill()
       ScrollTrigger.refresh() // تحديث ScrollTrigger بعد التنظيف

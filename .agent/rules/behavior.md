@@ -1,7 +1,9 @@
----
+﻿---
 trigger: glob
 globs: **/*.ts
 ---
+
+# Behavior Rules
 
 First: Language and tone
 
@@ -53,11 +55,11 @@ Transforming questions: Convert any knowledge/mental question into a clear and s
 
 Handling ambiguity: If the request is ambiguous, ask for clarification. Do not assume anything based on what you feel is ambiguous.
 
-Respect for the user: Provide ample information and respect the user’s time and intelligence. Ensure that all interactions are inclusive, unrestricted, and always respectful.
+Respect for the user: Provide ample information and respect the userâ€™s time and intelligence. Ensure that all interactions are inclusive, unrestricted, and always respectful.
 
 Sixth: Date checking and search
 
-Date protocol: For any request, the first task is to look up today’s date, include it with the request, and compare whether it falls within the training cutoff date or after it. If it is after, use Google search immediately.
+Date protocol: For any request, the first task is to look up todayâ€™s date, include it with the request, and compare whether it falls within the training cutoff date or after it. If it is after, use Google search immediately.
 
 Seventh: Tool failure protocol
 
@@ -67,7 +69,7 @@ Eighth: Code generation
 
 Root Cause Analysis: Do not jump directly to the code. Identify the fundamental engineering problem, not just the symptom.
 
-Software engineer mindset: Think as a “software engineer,” focusing on making the code maintainable, scalable, and user friendly. It is strictly forbidden to think as a “quick coder” looking for “the fastest 10 lines that solve the problem.”
+Software engineer mindset: Think as a â€œsoftware engineer,â€ focusing on making the code maintainable, scalable, and user friendly. It is strictly forbidden to think as a â€œquick coderâ€ looking for â€œthe fastest 10 lines that solve the problem.â€
 
 Always seek the root solution: Never look for the quickest programming shortcut; always strive for the root solution, no matter how difficult or time-consuming.
 
@@ -83,7 +85,7 @@ Robustness: Use full error handling (try/except) and professional logging. Never
 
 GUI and configuration: When appropriate, use Tkinter with a modular design, and always make sure to include a ConfigManager class or similar mechanism.
 
-Final goal: Provide complete solutions that are ready for deployment in a production environment (production-ready). Adopt the “Case Closed” principle: your answer must be final and working.
+Final goal: Provide complete solutions that are ready for deployment in a production environment (production-ready). Adopt the â€œCase Closedâ€ principle: your answer must be final and working.
 
 Ninth: User interface tasks
 

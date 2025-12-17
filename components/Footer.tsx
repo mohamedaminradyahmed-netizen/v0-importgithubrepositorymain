@@ -1,8 +1,53 @@
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { useState } from 'react';
 
 export const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      // إعادة تعيين الرسائل
+      setMessage({ type: null, text: '' });
+      
+      // التحقق من صحة البريد الإلكتروني
+      if (!email.trim()) {
+        setMessage({ type: 'error', text: 'يرجى إدخال بريدك الإلكتروني' });
+        return;
+      }
+      
+      if (!validateEmail(email)) {
+        setMessage({ type: 'error', text: 'يرجى إدخال بريد إلكتروني صحيح' });
+        return;
+      }
+      
+      setIsLoading(true);
+      
+      // محاكاة API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // في التطبيق الحقيقي، ستكون هناك مكالمة API فعلية
+      // const response = await fetch('/api/newsletter', { method: 'POST', body: JSON.stringify({ email }) });
+      
+      setMessage({ type: 'success', text: 'تم الاشتراك بنجاح! شكراً لك' });
+      setEmail('');
+      
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setMessage({ type: 'error', text: 'حدث خطأ أثناء الاشتراك. يرجى المحاولة مرة أخرى' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <footer className="bg-[#111111] text-white/80 py-20 rtl" dir="rtl">
       <div className="container mx-auto px-6">
@@ -51,14 +96,34 @@ export const Footer = () => {
             <p className="font-light text-sm">
               اشتركي معنا للحصول على آخر العروض والأخبار
             </p>
-            <div className="flex gap-2">
-              <Input 
-                placeholder="بريدك الإلكتروني" 
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary rounded-none"
-              />
-              <Button className="bg-secondary text-black hover:bg-secondary/90 rounded-none">
-                اشتراك
-              </Button>
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <Input 
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="بريدك الإلكتروني" 
+                  className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary rounded-none ${
+                    message.type === 'error' ? 'border-red-500' : ''
+                  }`}
+                  disabled={isLoading}
+                  onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSubscribe()}
+                />
+                <Button 
+                  onClick={handleSubscribe}
+                  disabled={isLoading || !email.trim()}
+                  className="bg-secondary text-black hover:bg-secondary/90 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'جاري الإرسال...' : 'اشتراك'}
+                </Button>
+              </div>
+              {message.type && (
+                <p className={`text-sm ${
+                  message.type === 'success' ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {message.text}
+                </p>
+              )}
             </div>
             <div className="flex gap-4 pt-4">
               <a href="#" className="hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>

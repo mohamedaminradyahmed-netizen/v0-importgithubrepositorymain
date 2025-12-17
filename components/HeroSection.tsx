@@ -12,34 +12,54 @@ export const HeroSection = () => {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Parallax Background
-      gsap.to(bgRef.current, {
-        yPercent: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+    try {
+      // التحقق من وجود العناصر المطلوبة
+      if (!containerRef.current || !bgRef.current || !textRef.current) {
+        console.warn('HeroSection: Required refs not available for animations');
+        return;
+      }
 
-      // Text Parallax (Moves faster/slower)
-      gsap.to(textRef.current, {
-        yPercent: -20,
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    }, containerRef);
+      const ctx = gsap.context(() => {
+        try {
+          // Parallax Background
+          gsap.to(bgRef.current, {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
 
-    return () => ctx.revert();
+          // Text Parallax (Moves faster/slower)
+          gsap.to(textRef.current, {
+            yPercent: -20,
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
+        } catch (animationError) {
+          console.error('HeroSection: Animation setup failed:', animationError);
+        }
+      }, containerRef);
+
+      return () => {
+        try {
+          ctx.revert();
+        } catch (cleanupError) {
+          console.error('HeroSection: Animation cleanup failed:', cleanupError);
+        }
+      };
+    } catch (error) {
+      console.error('HeroSection: useEffect failed:', error);
+    }
   }, []);
 
   return (
