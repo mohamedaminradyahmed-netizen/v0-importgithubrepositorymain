@@ -22,7 +22,6 @@ export const StackingImageCard = ({
         width: width,
         height: height,
         aspectRatio: height === "auto" ? "16/9" : "unset",
-        zIndex: 50 + index,
         transformOrigin: "center center",
       }}
     >

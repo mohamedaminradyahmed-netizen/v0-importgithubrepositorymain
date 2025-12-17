@@ -123,7 +123,7 @@ export const useHeroAnimation = (
           img,
           { y: "120vh", rotation: 0, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-          1.2 + staggerDelay,
+          2.7 + staggerDelay, // تم التعديل من 1.2 إلى 2.7
         )
       })
 
@@ -143,10 +143,17 @@ export const useHeroAnimation = (
           rotation: 0,
           scale: responsiveValues.scale,
           opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
-          duration: 1.8,
+          // ضمان التراكب الصحيح عند تقارب البطاقات (البطاقات المنخفضة/الوسط تكون في المقدمة)
+          zIndex: (i) => {
+            if (i >= responsiveValues.vShapePositions.length) return 0
+            const top = responsiveValues.vShapePositions[i]?.top ?? "0%"
+            const n = Number.parseFloat(top)
+            return Number.isFinite(n) ? 10 + Math.round(n) : 10
+          },
+          duration: 3.3,
           ease: "power3.inOut",
         },
-        2,
+        3.5, // تم التعديل من 2 إلى 3.5
       )
 
       // Phase 5: CRITICAL FIX - Direct transition from dedication to النسخة

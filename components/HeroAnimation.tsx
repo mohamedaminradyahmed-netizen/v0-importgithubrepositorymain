@@ -21,11 +21,73 @@ export const HeroAnimation = () => {
       dir="rtl"
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
-      <div className="fixed top-0 left-0 right-0 z-[9999] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
+      <div className="fixed top-0 left-0 right-0 z-[9998] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
         <span className="font-bold tracking-[0.25em] text-[22px] text-white/90 font-sans uppercase">النسخة</span>
       </div>
 
-      <div ref={triggerRef} className="h-screen w-full relative flex flex-col items-center justify-center">
+      <div className="scene-container fixed inset-0 z-[10000] flex items-center justify-center pointer-events-none">
+        <div className="unified-entity relative w-full h-full flex items-center justify-center">
+          {/* V-Shape Container */}
+          <div className="v-shape-container absolute top-0 left-0 w-full h-full m-0 p-0">
+            <div className="v-shape-cards-layer absolute inset-0">
+              {responsiveValues.vShapePositions.map((pos, i) => {
+                const centerIndex = Math.floor(responsiveValues.vShapePositions.length / 2)
+                const distanceFromCenter = Math.abs(i - centerIndex)
+                const zIndex = 10010 - distanceFromCenter
+
+                return (
+                  <div
+                    key={`v-card-${i}`}
+                    className="phase-3-img hero-vcard absolute origin-center"
+                    style={{
+                      width: `${responsiveValues.cardWidth}px`,
+                      height: `${responsiveValues.cardHeight}px`,
+                      zIndex,
+                    }}
+                  >
+                    <div className="card-elite w-full h-full overflow-hidden relative">
+                      <ImageWithFallback
+                        src={images[i] || "/placeholder.svg"}
+                        alt={`Scene ${i}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
+              {/* Main Title: "بس اصلي" */}
+              <div className="text-content-wrapper flex flex-col items-center justify-center w-auto z-30 -ml-0.5 opacity-0">
+                <h1 className="text-main text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-tight text-center">
+                  بس اصلي
+                </h1>
+              </div>
+
+              {/* CRITICAL FIX: Dedication and النسخة use SAME positioning wrapper */}
+              <div className="text-overlay-container absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
+                {/* Dedication Text: "اهداء ليسري نصر الله" */}
+                <div className="dedication-wrapper absolute  pt-62 md:pt-40 mr-30 md:mr-32 opacity-0">
+                  <p className="unified-text-style">
+                    اهداء ليسري نصر الله
+                  </p>
+                </div>
+
+                {/* Phase 5 Text: "النسخة" - SAME COORDINATES as dedication */}
+                <div className="phase-5-wrapper absolute  pt-62 md:pt-40 mr-30 md:mr-32 opacity-0">
+                  <p className="unified-text-style">
+                    النسخة
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ref={triggerRef} className="h-screen w-full flex flex-col items-center justify-center">
         {/* =========================================
             LAYER 1: INTRO (Video)
            ========================================= */}
@@ -35,71 +97,6 @@ export const HeroAnimation = () => {
             text="النسخة"
             className="w-full h-full"
           />
-        </div>
-
-        {/* =========================================
-            LAYER 2–4: TEXT + V-SHAPE CONTAINER (Unified)
-           ========================================= */}
-        <div className="scene-container fixed inset-0 z-[40] flex items-center justify-center pointer-events-none">
-          <div className="unified-entity relative w-full h-full flex items-center justify-center">
-            {/* V-Shape Container */}
-            <div className="v-shape-container absolute top-0 left-0 w-full h-full z-40 m-0 p-0">
-              <div className="v-shape-cards-layer absolute inset-0">
-                {responsiveValues.vShapePositions.map((pos, i) => {
-                  const centerIndex = Math.floor(responsiveValues.vShapePositions.length / 2)
-                  const distanceFromCenter = Math.abs(i - centerIndex)
-                  const zIndex = 10 - distanceFromCenter
-
-                  return (
-                    <div
-                      key={`v-card-${i}`}
-                      className="phase-3-img hero-vcard absolute origin-center"
-                      style={{
-                        width: `${responsiveValues.cardWidth}px`,
-                        height: `${responsiveValues.cardHeight}px`,
-                        zIndex,
-                      }}
-                    >
-                      <div className="card-elite w-full h-full overflow-hidden relative">
-                        <ImageWithFallback
-                          src={images[i] || "/placeholder.svg"}
-                          alt={`Scene ${i}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="hero-card-sheen absolute inset-0 pointer-events-none" />
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              <div className="main-content-wrapper relative flex flex-col items-center justify-center text-center w-full h-full">
-                {/* Main Title: "بس اصلي" */}
-                <div className="text-content-wrapper flex flex-col items-center justify-center w-auto z-30 -ml-0.5 opacity-0">
-                  <h1 className="text-main text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-tight text-center">
-                    بس اصلي
-                  </h1>
-                </div>
-
-                {/* CRITICAL FIX: Dedication and النسخة use SAME positioning wrapper */}
-                <div className="text-overlay-container absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
-                  {/* Dedication Text: "اهداء ليسري نصر الله" */}
-                  <div className="dedication-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
-                    <p className="unified-text-style">
-                      اهداء ليسري نصر الله
-                    </p>
-                  </div>
-
-                  {/* Phase 5 Text: "النسخة" - SAME COORDINATES as dedication */}
-                  <div className="phase-5-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
-                    <p className="unified-text-style">
-                      النسخة
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

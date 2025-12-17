@@ -193,13 +193,59 @@
   }
 
   .hero-dedication {
-    @apply text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/70 text-center font-sans tracking-[0.2em];
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-family: "Cairo", "Cairo Fallback", sans-serif;
+    letter-spacing: 0.2em;
     line-height: 1.05;
   }
 
+  @media (min-width: 640px) {
+    .hero-dedication {
+      font-size: 24px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-dedication {
+      font-size: 26px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-dedication {
+      font-size: 28px;
+    }
+  }
+
   .hero-secondary-label {
-    @apply text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px] font-medium text-white/70 text-center font-sans tracking-[0.2em];
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-family: "Cairo", "Cairo Fallback", sans-serif;
+    letter-spacing: 0.2em;
     line-height: 1.05;
+  }
+
+  @media (min-width: 640px) {
+    .hero-secondary-label {
+      font-size: 24px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-secondary-label {
+      font-size: 26px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-secondary-label {
+      font-size: 28px;
+    }
   }
 
   .hero-vcard {
