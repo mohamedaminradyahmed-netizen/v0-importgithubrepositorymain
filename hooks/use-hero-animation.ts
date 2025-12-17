@@ -13,14 +13,14 @@ export const useHeroAnimation = (
 ) => {
   const [responsiveValues, setResponsiveValues] = useState<ResponsiveConfig | null>(null)
 
-  // Fixed baseline constants for symmetric spacing
-  const HEADER_H = 96
-  const SAFE_BOTTOM = 80
-  const SAFE_TOP = HEADER_H + 24
+  // Fixed baseline constants for symmetric spacing (unused but kept for future reference)
+  // const HEADER_H = 96
+  // const SAFE_BOTTOM = 80
+  // const SAFE_TOP = HEADER_H + 24
 
   useEffect(() => {
     const handleResize = () => {
-      setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth, window.innerHeight))
+      setResponsiveValues(heroConfig.getResponsiveValues(window.innerWidth))
     }
     handleResize()
     window.addEventListener("resize", handleResize)
@@ -33,21 +33,21 @@ export const useHeroAnimation = (
     const phase3Images = gsap.utils.toArray(".phase-3-img") as HTMLElement[]
 
     const ctx = gsap.context(() => {
-      // تحسين الأداء: تقليل المسافة وتحسين scrub للسلاسة
+      // Performance optimization: reduce distance and improve scrub for smoothness
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerRef.current,
           start: "top top",
-          end: "+=8000", // تقليل من 12000 لتحسين الأداء
-          scrub: 1.2, // تحسين من 2.5 لاستجابة أسرع
+          end: "+=8000", // reduced from 12000 for better performance
+          scrub: 1.2, // improved from 2.5 for faster response
           pin: true,
           anticipatePin: 1,
           id: "hero-scroll",
-          invalidateOnRefresh: true, // تحسين الأداء عند تغيير الحجم
+          invalidateOnRefresh: true, // performance improvement on resize
         },
       })
 
-      // Phase 1: Reveal Video + Show Header - محسن للأداء
+      // Phase 1: Reveal Video + Show Header - performance optimized
       tl.to(".video-mask-wrapper", {
         scale: 5,
         y: -600,
@@ -55,7 +55,7 @@ export const useHeroAnimation = (
         duration: 3,
         ease: "power2.inOut",
         pointerEvents: "none",
-        // تحسين الأداء: إضافة will-change للعناصر المتحركة
+        // performance optimization: add will-change for animated elements
         willChange: "transform, opacity",
       })
 
@@ -119,16 +119,16 @@ export const useHeroAnimation = (
         0.5,
       )
 
-      // Phase 3: Card Animation Setup - محسن للأداء
+      // Phase 3: Card Animation Setup - performance optimized
       // phase3Images defined in outer scope
 
-      // تحسين الأداء: إضافة will-change للبطاقات
+      // performance optimization: add will-change for cards
       phase3Images.forEach((img) => {
         gsap.set(img, { willChange: "transform, opacity" })
       })
 
       phase3Images.forEach((img, i) => {
-        const staggerDelay = i * 0.12 // تقليل التأخير لسرعة أكبر
+        const staggerDelay = i * 0.12 // reduced delay for faster speed
 
         tl.fromTo(
           img,
@@ -136,29 +136,29 @@ export const useHeroAnimation = (
           {
             y: 0,
             opacity: 1,
-            duration: 0.7, // تقليل المدة لسرعة أكبر
+            duration: 0.7, // reduced duration for faster speed
             ease: "power2.out",
-            force3D: true, // فرض استخدام GPU acceleration
+            force3D: true, // force GPU acceleration
           },
-          2.5 + staggerDelay, // تحسين التوقيت
+          2.5 + staggerDelay, // timing optimization
         )
       })
 
       tl.to(
         ".phase-3-img",
         {
-          top: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.top || "50%") : "100vh"),
-          left: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.left || "50%") : "50%"),
+          top: (i) => (i < responsiveValues.cardPositions.length ? (responsiveValues.cardPositions[i]?.top || "50%") : "100vh"),
+          left: (i) => (i < responsiveValues.cardPositions.length ? (responsiveValues.cardPositions[i]?.left || "50%") : "50%"),
 
           // استخدام الدوران من الكونفيج بدلاً من 0
-          rotation: (i) => (i < responsiveValues.vShapePositions.length ? (responsiveValues.vShapePositions[i]?.rotation || 0) : 0),
+          rotation: (i) => (i < responsiveValues.cardPositions.length ? (responsiveValues.cardPositions[i]?.rotation || 0) : 0),
 
           scale: responsiveValues.scale,
-          opacity: (i) => (i < responsiveValues.vShapePositions.length ? 1 : 0),
+          opacity: (i) => (i < responsiveValues.cardPositions.length ? 1 : 0),
 
           // طبقات تراكب مقصودة: الأقرب للمركز + الأسفل (top أكبر) يكون في المقدمة
           zIndex: (i) => {
-            const pos = responsiveValues.vShapePositions[i]
+            const pos = responsiveValues.cardPositions[i]
             if (!pos) return 0
             const l = Number.parseFloat(String(pos.left).replace("%", ""))
             const t = Number.parseFloat(String(pos.top).replace("%", ""))
@@ -272,10 +272,11 @@ export const useHeroAnimation = (
       )
 
       // الخطوة 3: تغيير محتوى النص السفلي إلى "بس اصلي"
+      const secondaryTextRef = containerRef.current?.querySelector(".phase-5-wrapper p")
+      const mainTitleRef = containerRef.current?.querySelector(".text-content-wrapper h1")
       tl.call(() => {
-        const secondaryText = document.querySelector(".phase-5-wrapper p")
-        if (secondaryText) {
-          secondaryText.textContent = "بس اصلي"
+        if (secondaryTextRef) {
+          secondaryTextRef.textContent = "بس اصلي"
         }
       })
 
@@ -292,9 +293,8 @@ export const useHeroAnimation = (
 
       // الخطوة 5: تغيير محتوى النص الكبير إلى "النسخة"
       tl.call(() => {
-        const mainTitle = document.querySelector(".text-content-wrapper h1")
-        if (mainTitle) {
-          mainTitle.textContent = "النسخة"
+        if (mainTitleRef) {
+          mainTitleRef.textContent = "النسخة"
         }
       })
 
@@ -336,7 +336,7 @@ export const useHeroAnimation = (
       ScrollTrigger.getById("hero-scroll")?.kill()
       ScrollTrigger.refresh() // تحديث ScrollTrigger بعد التنظيف
     }
-  }, [responsiveValues])
+  }, [responsiveValues, containerRef, triggerRef])
 
   return { responsiveValues }
 }

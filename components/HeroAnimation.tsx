@@ -22,11 +22,12 @@ export const HeroAnimation = () => {
     >
       {/* HEADER: STRICTLY "النسخة" CENTERED ONLY - INITIALLY HIDDEN */}
       <div className="fixed top-0 left-0 right-0 z-[9998] h-24 flex justify-center items-center pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.9)] bg-black/95 backdrop-blur-md border-b border-white/5 opacity-0 fixed-header">
+
         <span className="font-bold tracking-[0.25em] text-[22px] text-white/90 font-sans uppercase">النسخة</span>
       </div>
 
       <div className="scene-container fixed inset-0 z-[10000] flex items-center justify-center pointer-events-none">
-        
+
         {/* Phase 7: 4x4 Grid Layout (16 cells total) */}
         <div className="portfolio-grid-4x4 absolute inset-0 w-full h-full opacity-0 p-4">
           <div className="grid grid-cols-4 grid-rows-4 gap-2 md:gap-4 w-full h-full">
@@ -36,15 +37,14 @@ export const HeroAnimation = () => {
               const isCenterCell = [5, 6, 9, 10].includes(i)
               // Skip rendering individual cells for center area
               if (isCenterCell && i !== 5) return null
-              
+
               return (
                 <div
                   key={`grid-cell-${i}`}
-                  className={`grid-cell relative rounded-lg overflow-hidden ${
-                    isCenterCell 
-                      ? 'col-span-2 row-span-2 unified-entity-grid-container' 
+                  className={`grid-cell relative rounded-lg overflow-hidden ${isCenterCell
+                      ? 'col-span-2 row-span-2 unified-entity-grid-container'
                       : 'portfolio-item-container opacity-0'
-                  }`}
+                    }`}
                   style={{
                     backgroundColor: isCenterCell ? 'transparent' : 'rgba(255,255,255,0.05)',
                     border: isCenterCell ? 'none' : '1px solid rgba(255,255,255,0.1)',
@@ -57,7 +57,7 @@ export const HeroAnimation = () => {
                     // Portfolio items for surrounding cells
                     <div className="portfolio-item w-full h-full relative">
                       <ImageWithFallback
-                        src={images[i % images.length] || "/placeholder.svg"}
+                        src={images.length > 0 ? images[i % images.length] : "/placeholder.svg"}
                         alt={`Portfolio Design ${i + 1}`}
                         className="w-full h-full object-cover"
                       />
@@ -79,8 +79,8 @@ export const HeroAnimation = () => {
             {/* V-Shape Container */}
             <div className="v-shape-container absolute top-0 left-0 w-full h-full m-0 p-0">
               <div className="v-shape-cards-layer absolute inset-0">
-                {responsiveValues.vShapePositions.map((pos, i) => {
-                  const centerIndex = Math.floor(responsiveValues.vShapePositions.length / 2)
+                {responsiveValues.cardPositions.map((pos, i) => {
+                  const centerIndex = Math.floor(responsiveValues.cardPositions.length / 2)
                   const distanceFromCenter = Math.abs(i - centerIndex)
                   const zIndex = 10010 - distanceFromCenter
 

@@ -1,19 +1,15 @@
 export interface ResponsiveConfig {
   cardWidth: number
   cardHeight: number
-  vShapePositions: Array<{ top: string; left: string; rotation: number }>
+  cardPositions: Array<{ top: string; left: string; rotation: number }>
   scale: number
-  surroundingGroups: {
-    group1: Array<{ top: string; left: string; width: string; height: string }>
-    group2: Array<{ top: string; left: string; width: string; height: string }>
-    group3: Array<{ top: string; left: string; width: string; height: string }>
-  }
+  surroundingGroups: Array<Array<{ top: string; left: string; width: string; height: string }>>
 }
 
-const HEADER_H = 96
-const TOP_SAFE = HEADER_H + 24
-const SAFE_BOTTOM = 80
-const BOTTOM_GAP = SAFE_BOTTOM + 50
+const HEADER_HEIGHT = 96
+const TOP_SAFE_AREA = HEADER_HEIGHT + 24
+const BOTTOM_SAFE_AREA = 80
+const BOTTOM_MARGIN = BOTTOM_SAFE_AREA + 50
 
 class HeroConfiguration {
   private static instance: HeroConfiguration
@@ -26,9 +22,9 @@ class HeroConfiguration {
     return HeroConfiguration.instance
   }
 
-  public getResponsiveValues(width: number, height = 900): ResponsiveConfig {
-    const isTablet = width >= 768 && width < 1280
+  public getResponsiveValues(width: number): ResponsiveConfig {
     const isDesktop = width >= 1280
+    const isTablet = width >= 768 && width < 1280
     const isMobile = width < 768
 
     let cardWidth: number
@@ -74,7 +70,7 @@ class HeroConfiguration {
       ]
     }
 
-    const vShapePositions = positions.map((pos) => ({
+    const cardPositions = positions.map((pos) => ({
       top: pos.top,
       left: pos.left,
       rotation: pos.rotation,
@@ -84,27 +80,27 @@ class HeroConfiguration {
       cardWidth,
       cardHeight,
       scale,
-      vShapePositions,
-      surroundingGroups: {
-        group1: [
+      cardPositions,
+      surroundingGroups: [
+        [
           { top: "5%", left: "5%", width: "18%", height: "25%" },
           { top: "5%", left: "77%", width: "18%", height: "25%" },
           { top: "15%", left: "28%", width: "12%", height: "18%" },
           { top: "15%", left: "60%", width: "12%", height: "18%" },
         ],
-        group2: [
+        [
           { top: "40%", left: "2%", width: "16%", height: "22%" },
           { top: "40%", left: "82%", width: "16%", height: "22%" },
           { top: "35%", left: "22%", width: "10%", height: "14%" },
           { top: "35%", left: "68%", width: "10%", height: "14%" },
         ],
-        group3: [
+        [
           { top: "75%", left: "5%", width: "20%", height: "20%" },
           { top: "75%", left: "75%", width: "20%", height: "20%" },
           { top: "80%", left: "30%", width: "15%", height: "15%" },
           { top: "80%", left: "55%", width: "15%", height: "15%" },
         ],
-      },
+      ],
     }
   }
 }
