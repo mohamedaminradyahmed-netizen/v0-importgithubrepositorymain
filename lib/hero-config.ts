@@ -42,13 +42,13 @@ class HeroConfiguration {
       cardHeight = 275
       scale = 0.82
       positions = [
-        { left: "10%", top: "20%", rotation: 0 }, // Far Left (highest)
-        { left: "23%", top: "35%", rotation: 0 }, // Left
-        { left: "36%", top: "45%", rotation: 0 }, // Inner Left
-        { left: "50%", top: "55%", rotation: 0 }, // CENTER (lowest)
-        { left: "64%", top: "45%", rotation: 0 }, // Inner Right
-        { left: "77%", top: "35%", rotation: 0 }, // Right
-        { left: "90%", top: "20%", rotation: 0 }, // Far Right (highest)
+        { left: "26%", top: "30%", rotation: 0 }, // Left cluster (back)
+        { left: "32%", top: "36%", rotation: 0 }, // Left cluster (mid)
+        { left: "40%", top: "46%", rotation: 0 }, // Left cluster (front)
+        { left: "50%", top: "54%", rotation: 0 }, // Center (front - lowest)
+        { left: "58%", top: "54%", rotation: 0 }, // Center (front - lowest)
+        { left: "66%", top: "40%", rotation: 0 }, // Right cluster (mid)
+        { left: "72%", top: "32%", rotation: 0 }, // Right cluster (back)
       ]
     } else if (isTablet) {
       // Tablet: 5 cards in V-shape
@@ -56,11 +56,11 @@ class HeroConfiguration {
       cardHeight = 235
       scale = 0.78
       positions = [
-        { left: "15%", top: "30%", rotation: 0 }, // Left
-        { left: "30%", top: "42%", rotation: 0 }, // Inner Left
-        { left: "50%", top: "55%", rotation: 0 }, // CENTER (lowest)
-        { left: "70%", top: "42%", rotation: 0 }, // Inner Right
-        { left: "85%", top: "30%", rotation: 0 }, // Right
+        { left: "30%", top: "34%", rotation: 0 }, // Left (back)
+        { left: "40%", top: "46%", rotation: 0 }, // Left (front)
+        { left: "50%", top: "56%", rotation: 0 }, // Center (front - lowest)
+        { left: "60%", top: "46%", rotation: 0 }, // Right (front)
+        { left: "70%", top: "34%", rotation: 0 }, // Right (back)
       ]
     } else {
       // Mobile: 3 cards in V-shape
@@ -68,9 +68,9 @@ class HeroConfiguration {
       cardHeight = 150
       scale = 0.74
       positions = [
-        { left: "20%", top: "35%", rotation: 0 }, // Left
-        { left: "50%", top: "50%", rotation: 0 }, // CENTER (lowest)
-        { left: "80%", top: "35%", rotation: 0 }, // Right
+        { left: "38%", top: "44%", rotation: 0 }, // Left (back)
+        { left: "50%", top: "56%", rotation: 0 }, // Center (front - lowest)
+        { left: "62%", top: "44%", rotation: 0 }, // Right (back)
       ]
     }
 
