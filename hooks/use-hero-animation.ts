@@ -209,11 +209,11 @@ export const useHeroAnimation = (
         "+=0.5",
       )
 
-      // 7.2: Zoom Out - تقليص أكبر للحاوية لتناسب مساحة Grid المركزية
+      // 7.2: Zoom Out - تقليص أكبر للحاوية لتبقى في الفراغ الأسود فقط
       tl.to(
         ".frozen-container",
         {
-          scale: 0.48, // تقليص أكبر ليناسب مساحة 2×2 في Grid 4×4
+          scale: 0.48, // تقليص أكبر ليناسب مساحة 2×2 في Grid 4×4 (الفراغ الأسود فقط)
           duration: 2.5,
           ease: "power4.out",
           transformOrigin: "center center",
@@ -232,19 +232,6 @@ export const useHeroAnimation = (
         "-=2.0", // يبدأ قبل انتهاء التقليص
       )
 
-      // 7.4: إظهار 12 Portfolio Items المحيطة (تدريجياً)
-      tl.to(
-        ".portfolio-item-container",
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1.8,
-          ease: "power4.out",
-          stagger: 0.08, // تأخير بين كل عنصر
-        },
-        "-=1.2",
-      )
-
       // إضافة الإطار والظلال للحاوية الداخلية
       tl.to(
         ".v-shape-container",
@@ -258,7 +245,7 @@ export const useHeroAnimation = (
         "<", // متزامن مع التقليص
       )
 
-      // 7.6: تبديل النصوص بتسلسل متدرج
+      // 7.4: تبديل النصوص فور انتهاء التقليص (قبل ظهور الصور)
       
       // الخطوة 1: إخفاء "النسخة" السفلى أولاً
       tl.to(
@@ -268,7 +255,7 @@ export const useHeroAnimation = (
           duration: 0.3,
           ease: "power2.inOut",
         },
-        "+=0.3", // بعد انتهاء التقليص
+        "-=0.5", // يبدأ قبل انتهاء التقليص بقليل
       )
 
       // الخطوة 2: إخفاء "بس اصلي" الكبيرة ثانياً
@@ -320,7 +307,20 @@ export const useHeroAnimation = (
         "+=0.2",
       )
 
-      // انتهاء الأنيميشن مع النصوص المبدلة
+      // 7.5: إظهار 12 Portfolio Items المحيطة بعد انتهاء تبديل النصوص
+      tl.to(
+        ".portfolio-item-container",
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.8,
+          ease: "power4.out",
+          stagger: 0.08, // تأخير بين كل عنصر
+        },
+        "+=0.3", // بعد انتهاء تبديل النصوص
+      )
+
+      // انتهاء الأنيميشن مع النصوص المبدلة والصور
     }, containerRef)
 
     return () => {
