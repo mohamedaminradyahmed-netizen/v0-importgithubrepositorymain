@@ -84,14 +84,14 @@ export const HeroAnimation = () => {
                 {/* CRITICAL FIX: Dedication and النسخة use SAME positioning wrapper */}
                 <div className="text-overlay-container absolute inset-0 z-[54] flex flex-col items-center justify-center pointer-events-none">
                   {/* Dedication Text: "اهداء ليسري نصر الله" */}
-                  <div className="dedication-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                  <div className="dedication-wrapper absolute  pt-62 md:pt-40 mr-30 md:mr-32 opacity-0">
                     <p className="unified-text-style">
                       اهداء ليسري نصر الله
                     </p>
                   </div>
 
                   {/* Phase 5 Text: "النسخة" - SAME COORDINATES as dedication */}
-                  <div className="phase-5-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-40 mr-8 md:mr-35 opacity-0">
+                  <div className="phase-5-wrapper absolute  pt-62 md:pt-40 mr-30 md:mr-32 opacity-0">
                     <p className="unified-text-style">
                       النسخة
                     </p>
