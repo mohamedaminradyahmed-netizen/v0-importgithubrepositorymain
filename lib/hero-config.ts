@@ -13,8 +13,10 @@ const BOTTOM_MARGIN = BOTTOM_SAFE_AREA + 50
 
 class HeroConfiguration {
   private static instance: HeroConfiguration
-  private constructor() {}
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {
+    // Private constructor to prevent direct instantiation (Singleton pattern)
+  }
   public static getInstance(): HeroConfiguration {
     if (!HeroConfiguration.instance) {
       HeroConfiguration.instance = new HeroConfiguration()

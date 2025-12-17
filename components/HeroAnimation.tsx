@@ -6,6 +6,11 @@ import { useHeroAnimation } from "@/hooks/use-hero-animation"
 import { ImageWithFallback } from "./figma/ImageWithFallback"
 import images from "@/lib/images"
 
+const CENTER_CELLS = [5, 6, 9, 10]
+
+const GRID_SIZE = 16
+const GRID_CENTER_START_INDEX = 5
+
 export const HeroAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
@@ -13,6 +18,11 @@ export const HeroAnimation = () => {
   const { responsiveValues } = useHeroAnimation(containerRef, triggerRef)
 
   if (!responsiveValues) return <div className="min-h-screen bg-black" />
+
+  const getImage = (index: number) => {
+    if (!images || images.length === 0) return "/placeholder.svg"
+    return images[index % images.length]
+  }
 
   return (
     <div
@@ -32,18 +42,18 @@ export const HeroAnimation = () => {
         <div className="portfolio-grid-4x4 absolute inset-0 w-full h-full opacity-0 p-4">
           <div className="grid grid-cols-4 grid-rows-4 gap-2 md:gap-4 w-full h-full">
             {/* Generate 16 grid cells */}
-            {Array.from({ length: 16 }, (_, i) => {
+            {Array.from({ length: GRID_SIZE }, (_, i) => {
               // Center 4 cells (indices 5,6,9,10) for unified entity
-              const isCenterCell = [5, 6, 9, 10].includes(i)
+              const isCenterCell = CENTER_CELLS.includes(i)
               // Skip rendering individual cells for center area
-              if (isCenterCell && i !== 5) return null
+              if (isCenterCell && i !== GRID_CENTER_START_INDEX) return null
 
               return (
                 <div
                   key={`grid-cell-${i}`}
                   className={`grid-cell relative rounded-lg overflow-hidden ${isCenterCell
-                      ? 'col-span-2 row-span-2 unified-entity-grid-container'
-                      : 'portfolio-item-container opacity-0'
+                    ? 'col-span-2 row-span-2 unified-entity-grid-container'
+                    : 'portfolio-item-container opacity-0'
                     }`}
                   style={{
                     backgroundColor: isCenterCell ? 'transparent' : 'rgba(255,255,255,0.05)',
@@ -57,7 +67,7 @@ export const HeroAnimation = () => {
                     // Portfolio items for surrounding cells
                     <div className="portfolio-item w-full h-full relative">
                       <ImageWithFallback
-                        src={images.length > 0 ? images[i % images.length] : "/placeholder.svg"}
+                        src={getImage(i)}
                         alt={`Portfolio Design ${i + 1}`}
                         className="w-full h-full object-cover"
                       />
@@ -96,7 +106,7 @@ export const HeroAnimation = () => {
                     >
                       <div className="card-elite w-full h-full overflow-hidden relative">
                         <ImageWithFallback
-                          src={images[i] || "/placeholder.svg"}
+                          src={getImage(i)}
                           alt={`Scene ${i}`}
                           className="w-full h-full object-cover"
                         />

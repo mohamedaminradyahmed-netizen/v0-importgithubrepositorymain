@@ -272,9 +272,9 @@ export const useHeroAnimation = (
       )
 
       // الخطوة 3: تغيير محتوى النص السفلي إلى "بس اصلي"
-      const secondaryTextRef = containerRef.current?.querySelector(".phase-5-wrapper p")
-      const mainTitleRef = containerRef.current?.querySelector(".text-content-wrapper h1")
       tl.call(() => {
+        if (!containerRef.current) return
+        const secondaryTextRef = containerRef.current.querySelector(".phase-5-wrapper p")
         if (secondaryTextRef) {
           secondaryTextRef.textContent = "بس اصلي"
         }
@@ -293,6 +293,8 @@ export const useHeroAnimation = (
 
       // الخطوة 5: تغيير محتوى النص الكبير إلى "النسخة"
       tl.call(() => {
+        if (!containerRef.current) return
+        const mainTitleRef = containerRef.current.querySelector(".text-content-wrapper h1")
         if (mainTitleRef) {
           mainTitleRef.textContent = "النسخة"
         }
